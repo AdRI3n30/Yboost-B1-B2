@@ -1,24 +1,37 @@
 import React, { useState, useEffect } from 'react';
 
-const TaskList = () => {
+interface Task {
+  id: number;
+  description: string;
+}
+
+const TaskList: React.FC = () => {
   // State pour stocker les tâches
-  const [tasks, setTasks] = useState([]);
-  const [error, setError] = useState(null);
+  const [tasks, setTasks] = useState<Task[]>([]);
+  const [error, setError] = useState<string | null>(null);
 
   // Fonction pour récupérer les tâches
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const apiUrl = 'http://localhost:3000/tasks';
+        const apiUrl = 'http://localhost:5000/tasks';
         const response = await fetch(apiUrl);
-        const taskUrls = await response.json();
+        if (!response.ok) {
+          throw new Error('Erreur lors de la récupération des URLs des tâches');
+        }
 
-        // Récupérer toutes les tâches individuellement
+        const taskUrls: string[] = await response.json();
+
         const taskPromises = taskUrls.map((taskUrl) =>
-          fetch(`http://localhost:3000${taskUrl}`).then((res) => res.json())
+          fetch(`http://localhost:5000${taskUrl}`).then((res) => {
+            if (!res.ok) {
+              throw new Error('Erreur lors de la récupération de la tâche');
+            }
+            return res.json();
+          })
         );
-        const tasks = await Promise.all(taskPromises);
 
+        const tasks = await Promise.all(taskPromises);
         setTasks(tasks);
       } catch (error) {
         console.error('Erreur lors de la récupération des tâches :', error);
@@ -27,7 +40,7 @@ const TaskList = () => {
     };
 
     fetchTasks();
-  }, []); 
+  }, []);
 
   return (
     <div>
@@ -36,8 +49,8 @@ const TaskList = () => {
         <p>{error}</p>
       ) : (
         <ul>
-          {tasks.map((task, index) => (
-            <li key={index}>{task.description}</li>
+          {tasks.map((task) => (
+            <li key={task.id}>{task.description}</li> 
           ))}
         </ul>
       )}
