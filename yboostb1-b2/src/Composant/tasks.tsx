@@ -6,40 +6,34 @@ interface Task {
 }
 
 const TaskList: React.FC = () => {
+  // State pour stocker les tâches
   const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState<string | null>(null);
 
+  // Fonction pour récupérer les tâches
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        const apiUrl = 'http://localhost:5000/tasks';
-        const response = await fetch(apiUrl);
+        // Appel direct à l'API sur le port 5000 pour vérifier si le serveur est joignable
+        const response = await fetch('http://localhost:5000/tasks'); 
+  
         if (!response.ok) {
-          throw new Error('Erreur lors de la récupération des URLs des tâches');
+          throw new Error(`Erreur HTTP : ${response.status} ${response.statusText}`);
         }
-
-        const taskUrls: string[] = await response.json();
-
-        const taskPromises = taskUrls.map((taskUrl) =>
-          fetch(`http://localhost:5000${taskUrl}`).then((res) => {
-            if (!res.ok) {
-              throw new Error('Erreur lors de la récupération de la tâche');
-            }
-            return res.json();
-          })
-        );
-
-        const tasks = await Promise.all(taskPromises);
+  
+        const tasks = await response.json();
         setTasks(tasks);
-      } catch (error) {
-        console.error('Erreur lors de la récupération des tâches :', error);
-        setError('Impossible de récupérer les tâches.');
+      } catch (error: any) {
+        console.error('Erreur lors de la récupération des tâches :', error.message);
+        setError(`Impossible de récupérer les tâches. Détails : ${error.message}`);
       }
     };
-
+  
     fetchTasks();
   }, []);
-
+  
+  
+  
   return (
     <div>
       <h1>Liste des tâches</h1>
@@ -48,7 +42,7 @@ const TaskList: React.FC = () => {
       ) : (
         <ul>
           {tasks.map((task) => (
-            <li key={task.id}>{task.description}</li> 
+            <li key={task.id}>{task.description}</li>
           ))}
         </ul>
       )}
