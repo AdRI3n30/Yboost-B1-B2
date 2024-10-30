@@ -1,4 +1,4 @@
-// src/server.js
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const mysql = require('mysql2');
@@ -6,9 +6,9 @@ const mysql = require('mysql2');
 const app = express();
 const port = 5000;
 
-app.use(bodyParser.json()); // Middleware pour traiter le JSON
+app.use(bodyParser.json()); 
 
-// Connexion à la base de données
+
 const db = mysql.createConnection({
     host: 'localhost',
     user: 'root',
@@ -16,7 +16,6 @@ const db = mysql.createConnection({
     database: 'yboostb2'
 });
 
-// Vérification de la connexion à la base de données
 db.connect((err) => {
     if (err) {
         console.error('Erreur de connexion à MySQL:', err);
@@ -25,7 +24,7 @@ db.connect((err) => {
     console.log('Connecté à MySQL');
 });
 
-// Endpoint pour obtenir toutes les tâches
+
 app.get('/tasks', (req, res) => {
     db.query('SELECT id, description FROM tasks', (err, results) => {
         if (err) {
@@ -113,12 +112,12 @@ app.delete('/task/:id', (req, res) => {
 });
 
 
-// Endpoint de test
+
 app.get('/', (req, res) => {
     res.send('Serveur en cours d\'exécution et connecté à la base de données !');
 });
 
-// Lancer le serveur
+
 app.listen(port, () => {
     console.log(`Serveur écoutant sur le port ${port}`);
 });

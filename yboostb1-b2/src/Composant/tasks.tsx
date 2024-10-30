@@ -6,11 +6,9 @@ interface Task {
 }
 
 const TaskList: React.FC = () => {
-  // State pour stocker les tâches
   const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // Fonction pour récupérer les tâches
   useEffect(() => {
     const fetchTasks = async () => {
       try {
