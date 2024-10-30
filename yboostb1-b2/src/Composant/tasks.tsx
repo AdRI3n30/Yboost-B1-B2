@@ -6,15 +6,12 @@ interface Task {
 }
 
 const TaskList: React.FC = () => {
-  // State pour stocker les tâches
   const [tasks, setTasks] = useState<Task[]>([]);
   const [error, setError] = useState<string | null>(null);
 
-  // Fonction pour récupérer les tâches
   useEffect(() => {
     const fetchTasks = async () => {
       try {
-        // Appel direct à l'API sur le port 5000 pour vérifier si le serveur est joignable
         const response = await fetch('http://localhost:5000/tasks'); 
   
         if (!response.ok) {
