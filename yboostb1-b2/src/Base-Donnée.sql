@@ -20,6 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de données : `yboostb2`
 --
+CREATE DATABASE IF NOT EXISTS `yboostb2` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `yboostb2`;
 
 -- --------------------------------------------------------
 
@@ -32,7 +34,7 @@ CREATE TABLE IF NOT EXISTS `tasks` (
   `id` int NOT NULL AUTO_INCREMENT,
   `description` varchar(255) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=MyISAM AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
 -- Déchargement des données de la table `tasks`
@@ -41,8 +43,10 @@ CREATE TABLE IF NOT EXISTS `tasks` (
 INSERT INTO `tasks` (`id`, `description`) VALUES
 (1, 'Test1'),
 (2, 'Nouvelle tâche'),
-(3, 'Tom is very con');
+(3, 'Tom is very con'),
+(4, 'Marc');
 COMMIT;
+
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
