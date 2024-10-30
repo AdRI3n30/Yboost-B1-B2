@@ -3,9 +3,7 @@
 
 
 
-
-
-
+# Commentaire React 
  React :
  Success! Created yboostb1-b2 at C:\Users\Adrien\Desktop\Documents\GitHub\Yboost-B1-B2\yboostb1-b2
 Inside that directory, you can run several commands:
@@ -25,5 +23,28 @@ Inside that directory, you can run several commands:
 
 We suggest that you begin by typing:
 
-  cd yboostb1-b2
-  npm start
+
+
+#Lancement du Site
+
+  - cd yboostb1-b2
+
+  - npm start (npm run server et npm run client)
+
+
+
+
+  # Github 
+
+  - git checkout 
+  - git fetch origin 
+  - git rebase origin/main
+
+
+  # Pour mettre à jour 
+
+  - npm i 
+  - npm install react-router-dom
+  - npm install mysql2
+
+
