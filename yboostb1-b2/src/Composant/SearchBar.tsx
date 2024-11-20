@@ -1,21 +1,20 @@
-import React from "react";
+import React from 'react';
 
-const SearchBar =() =>{
-    return(
+const SearchBar = () => {
+    return (
         <>
-        <input
-          type="text"
-          placeholder="Rechercher"
-          className="w-full bg-gray-800 text-white placeholder-gray-500 rounded-full py-2 pl-4 pr-10 focus:outline-none" />
-        <button className="absolute right-3 top-2 text-white">
-          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fillRule="evenodd" d="M12.9 14.32a8 8 0 111.42-1.42l4.95 4.95-1.42 1.42-4.95-4.95zM8 14A6 6 0 108 2a6 6 0 000 12z" clipRule="evenodd" />
-          </svg>
-        </button>
+            <div className="relative mt-3 w-60 h-8">
+                <button className="absolute top-1 right-2 text-white">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="black" className="size-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="m21 21-5.197-5.197m0 0A7.5 7.5 0 1 0 5.196 5.196a7.5 7.5 0 0 0 10.607 10.607Z" />
+                    </svg>
+                </button>
+                <input type="search" placeholder="Rechercher..." className="w-full h-full pl-4 rounded-full rounded-full focus:outline-none focus:ring-2 focus:ring-blue-500 text-gray-900" />
+            </div>
+
         </>
-    )
 
-}
+    );
+};
 
-
-export default SearchBar
+export default SearchBar;
