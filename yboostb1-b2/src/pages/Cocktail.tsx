@@ -12,7 +12,6 @@ const Cocktail = () => {
     
     <Image/>
 
-    <ndf/>
 
 
     </div> 
