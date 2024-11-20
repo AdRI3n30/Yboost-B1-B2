@@ -8,7 +8,7 @@ import Templet_cocktail from '../Composant/templet_cocktail.tsx';
 const Home = () => {
   return (
     <div className="bg-black min-h-screen text-gray-300 flex flex-col items-center pt-6">
-      <h1 className="text-4xl font-bold text-green-400">
+      <h1 className="text-4xl font-bold bg-gradient-to-r from-green-500 via-yellow-500 to-green-500 text-transparent bg-clip-text">
         Shake <span className="text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">LAB</span>
       </h1>
       <SearchBar/>
