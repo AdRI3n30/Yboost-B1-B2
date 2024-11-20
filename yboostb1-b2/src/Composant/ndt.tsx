@@ -1,8 +1,8 @@
 import React from 'react';
 
-const ndf = () => {
+const Ndt = () => {
   return (
-    <div>
+    <><div>
         <div className="flex flex-column w-screen h-auto justify-center">
             <div className="bg-white w-auto h-8 flex mt-6">
                 <h1 className="text-2xl font-bold text-black">
@@ -23,7 +23,8 @@ const ndf = () => {
             </div>
         </div>
     </div>
+    </>
   );
 };
 
-export default ndf;
+export default Ndt;
