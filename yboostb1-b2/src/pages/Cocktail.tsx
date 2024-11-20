@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Image from '../Composant/image.tsx';
-import ndf from '../Composant/nom-diff-time.tsx';
+import Templet_cocktail from '../Composant/templet_cocktail.tsx';
 
 const Cocktail = () => {
   return (
@@ -12,7 +12,7 @@ const Cocktail = () => {
     
     <Image/>
 
-    <ndf/>
+
 
 
     </div> 
