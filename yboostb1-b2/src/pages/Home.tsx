@@ -9,10 +9,9 @@ const Home = () => {
   return (
     <div className="bg-black min-h-screen text-gray-300 flex flex-col items-center pt-6">
       <h1 className="text-4xl font-bold text-green-400">
-        Shake <span className="text-blue-300">LAB</span>
+        Shake <span className="text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">LAB</span>
       </h1>
       <SearchBar/>
-      <Landing />
  
         <div className=' m-6 flex gap-10 justify-between flex-wrap '><Templet_cocktail/> <Templet_cocktail/><Templet_cocktail/><Templet_cocktail/><Templet_cocktail/><Templet_cocktail/><Templet_cocktail/><Templet_cocktail/> <Templet_cocktail/> <Templet_cocktail/></div>
 
