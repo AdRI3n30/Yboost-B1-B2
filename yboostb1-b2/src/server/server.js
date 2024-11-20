@@ -27,7 +27,7 @@ db.connect((err) => {
 });
 
 
-app.get('/tasks', (req, res) => {
+app.get('/cocktails', (req, res) => {
     db.query('SELECT id, description FROM tasks', (err, results) => {
         if (err) {
             return res.status(500).json({ error: 'Erreur lors de la récupération des tâches' });
@@ -36,7 +36,7 @@ app.get('/tasks', (req, res) => {
     });
 });
 
-app.get('/task/:id', (req, res) => {
+app.get('/cocktails/:id', (req, res) => {
     const taskId = parseInt(req.params.id);
 
     db.query('SELECT id, description FROM tasks WHERE id = ?', [taskId], (err, results) => {
