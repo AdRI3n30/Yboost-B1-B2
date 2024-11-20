@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 
 interface Cocktail {
-  id: number;
-  title: string;
-  description: string;
-  ingrédient: string;
-  difficulty: string;
-  duration: string;
-  image: string;
+  Id: number;
+  Name: string;
+  Descri: string;
+  Id_difficulte: string;
+  Image: string;
+  Ingredients: string;
+  Temps: string;
 }
 
 const CocktailList: React.FC = () => {
@@ -52,13 +52,13 @@ const CocktailList: React.FC = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {cocktails.map((cocktail) => (
             <div
-              key={cocktail.id}
+              key={cocktail.Id}
               className="bg-gray-800 rounded-lg shadow-lg overflow-hidden"
             >
               <div className="relative">
                 <img
-                  src={cocktail.image}
-                  alt={cocktail.title}
+                  src={cocktail.Image}
+                  alt={cocktail.Name}
                   className="w-full h-48 object-cover"
                 />
                 <button className="absolute top-4 right-4 text-yellow-400 text-2xl">
@@ -66,10 +66,10 @@ const CocktailList: React.FC = () => {
                 </button>
               </div>
               <div className="p-4">
-                <h2 className="text-lg font-semibold">{cocktail.title}</h2>
+                <h2 className="text-lg font-semibold">{cocktail.Name}</h2>
                 <div className="flex justify-between items-center text-sm text-gray-400 mt-2">
-                  <span>{cocktail.difficulty}</span>
-                  <span>{cocktail.duration}</span>
+                  <span>{cocktail.Id_difficulte}</span>
+                  <span>{cocktail.Temps}</span>
                 </div>
               </div>
             </div>
