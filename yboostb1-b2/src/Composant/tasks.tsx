@@ -1,62 +1,83 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
-interface Task {
+interface Cocktail {
   id: number;
+  title: string;
   description: string;
+  ingrédient: string;
+  difficulty: string;
+  duration: string;
+  image: string;
 }
 
-const TaskList: React.FC = () => {
-  const [tasks, setTasks] = useState<Task[]>([]);
+const CocktailList: React.FC = () => {
+  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    const fetchTasks = async () => {
-      setLoading(true); 
+    const fetchCocktails = async () => {
+      setLoading(true);
       try {
-        const response = await fetch('http://localhost:5000/tasks'); 
+        const response = await fetch("http://localhost:5000/cocktails");
 
         if (!response.ok) {
           throw new Error(`Erreur HTTP : ${response.status} ${response.statusText}`);
         }
 
-        const tasks = await response.json();
-        setTasks(tasks);
+        const data = await response.json();
+        setCocktails(data);
       } catch (error: any) {
-        console.error('Erreur lors de la récupération des tâches :', error.message);
-        setError(`Impossible de récupérer les tâches. Détails : ${error.message}`);
+        console.error("Erreur lors de la récupération des cocktails :", error.message);
+        setError(`Impossible de récupérer les cocktails. Détails : ${error.message}`);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchTasks();
+    fetchCocktails();
   }, []);
 
   return (
-    <div className="text-center">
+    <div className="min-h-screen bg-black text-white p-4">
+      <h1 className="text-4xl font-bold text-center text-green-400 mb-8">
+        Shake <span className="text-blue-300">LAB</span>
+      </h1>
       {loading ? (
-        <p>Chargement des tâches...</p>
+        <p className="text-center text-lg">Chargement des cocktails...</p>
       ) : error ? (
-        <div className="text-red-500">{error}</div>
+        <div className="text-center text-red-500">{error}</div>
       ) : (
-        <ul className="list-disc list-inside">
-          {tasks.map((task) => (
-            <li key={task.id}>
-              <Link
-                to={`/task/${task.id}`}
-                className="text-blue-500 hover:underline"
-              >
-                {task.description}
-              </Link>
-            </li>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          {cocktails.map((cocktail) => (
+            <div
+              key={cocktail.id}
+              className="bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+            >
+              <div className="relative">
+                <img
+                  src={cocktail.image}
+                  alt={cocktail.title}
+                  className="w-full h-48 object-cover"
+                />
+                <button className="absolute top-4 right-4 text-yellow-400 text-2xl">
+                  ♥
+                </button>
+              </div>
+              <div className="p-4">
+                <h2 className="text-lg font-semibold">{cocktail.title}</h2>
+                <div className="flex justify-between items-center text-sm text-gray-400 mt-2">
+                  <span>{cocktail.difficulty}</span>
+                  <span>{cocktail.duration}</span>
+                </div>
+              </div>
+            </div>
           ))}
-        </ul>
+        </div>
       )}
     </div>
   );
-  
 };
 
-export default TaskList;
+export default CocktailList;
