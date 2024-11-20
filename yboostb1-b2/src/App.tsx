@@ -4,6 +4,8 @@ import Home from './pages/Home.tsx';
 import Contact from './pages/Contact.tsx';
 import List from './pages/List.tsx';
 import Favori from './pages/Favori.tsx';
+import Cocktail from './pages/Cocktail.tsx';
+
 
 const App = () => {
   return (
@@ -14,6 +16,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/list" element={<List />} />
         <Route path="/favori" element={<Favori />} />
+        <Route path="/cocktail" element={<Cocktail />} />
       </Routes>
     </Router>
   );
