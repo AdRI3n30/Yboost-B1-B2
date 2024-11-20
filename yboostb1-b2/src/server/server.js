@@ -27,21 +27,21 @@ db.connect((err) => {
 });
 
 
-app.get('/tasks', (req, res) => {
-    db.query('SELECT id, description FROM tasks', (err, results) => {
+app.get('/cocktails', (req, res) => {
+    db.query('SELECT Id, Name FROM cocktail', (err, results) => {
         if (err) {
-            return res.status(500).json({ error: 'Erreur lors de la récupération des tâches' });
+            return res.status(500).json({ error: 'Erreur lors de la récupération des tâches ' });
         }
         res.json(results);
     });
 });
 
-app.get('/task/:id', (req, res) => {
-    const taskId = parseInt(req.params.id);
+app.get('/cocktails/:id', (req, res) => {
+    const cocktailId = parseInt(req.params.id);
 
-    db.query('SELECT id, description FROM tasks WHERE id = ?', [taskId], (err, results) => {
+    db.query('SELECT Id, Name, Descri, Id_difficulte, Image, Ingredients, Temps FROM cocktail WHERE id = ?', [cocktailId], (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Erreur lors de la récupération de la tâche' });
+            res.status(500).json({ error: 'Erreur lors de la récupération de la tâche ici1' });
             return;
         }
 
@@ -54,34 +54,34 @@ app.get('/task/:id', (req, res) => {
 });
 
 
-app.post('/tasks', (req, res) => {
+app.post('/cocktails', (req, res) => {
     const { description } = req.body;
 
     if (!description) {
         return res.status(400).json({ error: 'La description est requise' });
     }
 
-    db.query('INSERT INTO tasks (description) VALUES (?)', [description], (err, result) => {
+    db.query('INSERT INTO cocktail ( Name, Descri, Id_difficulte, Image, Ingredients, Temps) VALUES (?)', [description], (err, result) => {
         if (err) {
             res.status(500).json({ error: 'Erreur lors de l\'ajout de la tâche' });
             return;
         }
 
-        const newTask = { id: result.insertId, description };
-        res.status(201).json({ message: 'Tâche ajoutée avec succès', task: newTask });
+        const newCocktail = { id: result.insertId, Name, Descri, Id_difficulte, Image, Ingredients, Temps };
+        res.status(201).json({ message: 'Tâche ajoutée avec succès', cocktail: newCocktail });
     });
 });
 
 
-app.put('/task/:id', (req, res) => {
-    const taskId = parseInt(req.params.id);
+app.put('/cocktail/:id', (req, res) => {
+    const cocktailId = parseInt(req.params.id);
     const { description } = req.body;
 
     if (!description) {
         return res.status(400).json({ error: 'La description est requise' });
     }
 
-    db.query('UPDATE tasks SET description = ? WHERE id = ?', [description, taskId], (err, result) => {
+    db.query('UPDATE cocktail SET description = ? WHERE id = ?', [description, cocktailId], (err, result) => {
         if (err) {
             res.status(500).json({ error: 'Erreur lors de la mise à jour de la tâche' });
             return;
@@ -96,10 +96,10 @@ app.put('/task/:id', (req, res) => {
 });
 
 
-app.delete('/task/:id', (req, res) => {
-    const taskId = parseInt(req.params.id);
+app.delete('/cocktail/:id', (req, res) => {
+    const cocktailId = parseInt(req.params.id);
 
-    db.query('DELETE FROM tasks WHERE id = ?', [taskId], (err, result) => {
+    db.query('DELETE FROM cocktail WHERE id = ?', [cocktailId], (err, result) => {
         if (err) {
             res.status(500).json({ error: 'Erreur lors de la suppression de la tâche' });
             return;
