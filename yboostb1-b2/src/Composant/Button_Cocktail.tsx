@@ -2,7 +2,7 @@ import React from 'react';
 
 const Button_Cocktail = () => {
     return (
-<div className="flex flex-col justify-center h-auto  bg-white w-screen mt-8">
+<div className="flex flex-col justify-center h-auto  bg-white mt-8">
         <button className='flex flex-row bg-black h-20 rounded-xl w-10/12'>
             <div className='flex ml-2 mr-2 w-auto h-full items-center justify-center rounded-full bg-black'>
                 <div className='rounded-full self-center justify-center bg-white src="" w-16 h-16'></div>
