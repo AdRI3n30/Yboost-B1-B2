@@ -11,11 +11,10 @@ const Home = () => {
       <h1 className="text-4xl font-bold bg-gradient-to-r from-green-500 via-yellow-500 to-green-500 text-transparent bg-clip-text">
         Shake <span className="text-4xl font-extrabold bg-gradient-to-r from-blue-500 via-purple-500 to-pink-500 text-transparent bg-clip-text">LAB</span>
       </h1>
-      <SearchBar/>
- 
-        <div className=' m-6 flex gap-10 justify-between flex-wrap '><Templet_cocktail/> <Templet_cocktail/><Templet_cocktail/><Templet_cocktail/><Templet_cocktail/><Templet_cocktail/><Templet_cocktail/><Templet_cocktail/> <Templet_cocktail/> <Templet_cocktail/></div>
-
-
+      <SearchBar />
+      <Landing />
+      <Landing />
+      
       <div className="fixed bottom-0 w-full bg-black py-3 flex justify-around text-gray-400">
         <CustomButton 
         to="/" 
