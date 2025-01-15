@@ -51,9 +51,10 @@ const CocktailList: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {cocktails.map((cocktail) => (
-            <div
+            <Link
               key={cocktail.Id}
-              className="bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+              to={`/cocktails/${cocktail.Id}`} // Lien vers la page de détails du cocktail
+              className="bg-gray-800 rounded-lg shadow-lg overflow-hidden transform hover:scale-105 transition-transform"
             >
               <div className="relative">
                 <img
@@ -61,9 +62,6 @@ const CocktailList: React.FC = () => {
                   alt={cocktail.Name}
                   className="w-full h-48 object-cover"
                 />
-                <button className="absolute top-4 right-4 text-yellow-400 text-2xl">
-                  ♥
-                </button>
               </div>
               <div className="p-4">
                 <h2 className="text-lg font-semibold">{cocktail.Name}</h2>
@@ -72,7 +70,7 @@ const CocktailList: React.FC = () => {
                   <span>{cocktail.Temps}</span>
                 </div>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
