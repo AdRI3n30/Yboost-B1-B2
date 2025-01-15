@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 20 nov. 2024 à 13:27
+-- Généré le : mer. 15 jan. 2025 à 08:54
 -- Version du serveur : 8.0.31
 -- Version de PHP : 8.0.26
 
@@ -53,41 +53,6 @@ CREATE TABLE IF NOT EXISTS `difficulte` (
   PRIMARY KEY (`Id_difficulte`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- --------------------------------------------------------
-
---
--- Structure de la table `like`
---
-
-DROP TABLE IF EXISTS `like`;
-CREATE TABLE IF NOT EXISTS `like` (
-  `IdLike` int NOT NULL AUTO_INCREMENT,
-  `IdUser` int NOT NULL,
-  `IdCocktail` int NOT NULL,
-  PRIMARY KEY (`IdLike`),
-  KEY `IdUser` (`IdUser`),
-  KEY `IdCocktail` (`IdCocktail`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
--- --------------------------------------------------------
-
---
--- Structure de la table `utilisateur`
---
-
-DROP TABLE IF EXISTS `utilisateur`;
-CREATE TABLE IF NOT EXISTS `utilisateur` (
-  `Id` int NOT NULL AUTO_INCREMENT,
-  `Pseudo` varchar(100) NOT NULL,
-  `LastName` varchar(100) NOT NULL,
-  `FirstName` varchar(100) NOT NULL,
-  `Email` varchar(255) NOT NULL,
-  `Password` varchar(255) NOT NULL,
-  `Image` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`Id`),
-  UNIQUE KEY `Email` (`Email`(191))
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
 --
 -- Contraintes pour les tables déchargées
 --
@@ -97,13 +62,6 @@ CREATE TABLE IF NOT EXISTS `utilisateur` (
 --
 ALTER TABLE `cocktail`
   ADD CONSTRAINT `cocktail_ibfk_1` FOREIGN KEY (`Id_difficulte`) REFERENCES `difficulte` (`Id_difficulte`) ON DELETE SET NULL;
-
---
--- Contraintes pour la table `like`
---
-ALTER TABLE `like`
-  ADD CONSTRAINT `like_ibfk_1` FOREIGN KEY (`IdUser`) REFERENCES `utilisateur` (`Id`) ON DELETE CASCADE,
-  ADD CONSTRAINT `like_ibfk_2` FOREIGN KEY (`IdCocktail`) REFERENCES `cocktail` (`Id`) ON DELETE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
