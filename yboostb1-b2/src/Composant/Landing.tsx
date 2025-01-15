@@ -5,7 +5,7 @@ const Landing = () => {
         <div className="flex justify-center">
             <div className="w-[150px]">
                 {/* Premier rectangle */}
-                <div className="relative bg-gray-800 rounded-lg overflow-hidden">
+                <div className="relative bg-gray-800 rounded-lg overflow-hidden shadow-[0_0_9px_rgba(0,0,0,0.2)]">
                     <img 
                         src="/Public/image.png" 
                         alt="Margarita" 
@@ -16,10 +16,7 @@ const Landing = () => {
                         <p className="text-gray-400 text-xs">easy</p>
                         <p className="text-gray-400 text-xs">5 min</p>
                     </div>
-                </div>
-
-                {/* Deuxième rectangle */}
-                
+                </div>               
             </div>
         </div>
     );
