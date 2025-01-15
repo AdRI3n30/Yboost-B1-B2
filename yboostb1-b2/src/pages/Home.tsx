@@ -1,8 +1,10 @@
 import React from 'react';
+import SearchBar from '../Composant/SearchBar.tsx';
 import Landing from '../Composant/Landing.tsx';
 import SearchBar from '../Composant/SearchBar.tsx';
 import { Link } from 'react-router-dom';
 import CustomButton from '../Composant/Button.tsx';
+import Templet_cocktail from '../Composant/templet_cocktail.tsx';
 
 const Home = () => {
   return (
