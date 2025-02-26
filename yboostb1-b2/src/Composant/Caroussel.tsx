@@ -33,12 +33,13 @@ const Caroussel = () => {
     }
   };
 
-  const handleImageClick = (index) => {
-    if (!isAnimating) {
-      setIsAnimating(true);
-      setCurrentIndex(index);
-    }
-  };
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      nextImage();
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+  }, []);
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -50,7 +51,7 @@ const Caroussel = () => {
 
   useEffect(() => {
     if (isAnimating) {
-      const timer = setTimeout(() => setIsAnimating(true), 500);
+      const timer = setTimeout(() => setIsAnimating(false), 500); // Délai correspondant à la durée de la transition
       return () => clearTimeout(timer);
     }
   }, [isAnimating]);
