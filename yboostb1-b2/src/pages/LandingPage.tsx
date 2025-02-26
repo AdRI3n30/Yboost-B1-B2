@@ -1,7 +1,7 @@
 import React from 'react';
 import Caroussel from '../Composant/Caroussel.tsx'; // Vérifie bien le chemin du fichier
 import Template_logo from '../Composant/template_logo.tsx';
-import NavigationBar from '../Composant/NavigationBar.tsx';
+import SearchBar from '../Composant/SearchBar.tsx';
 
 const LandingPage = () => {
   return (
