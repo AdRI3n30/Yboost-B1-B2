@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import CustomButton from "../Composant/Button.tsx";
 import Templet_cocktail from "../Composant/templet_cocktail.tsx";
 import Template_logo from "../Composant/template_logo.tsx";
+import NavigationBar from "../Composant/NavigationBar.tsx";
 
 const Home = () => {
   const [isPortrait, setIsPortrait] = useState(window.innerHeight > window.innerWidth);
