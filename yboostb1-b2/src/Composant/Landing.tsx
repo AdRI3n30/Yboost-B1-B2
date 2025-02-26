@@ -9,7 +9,7 @@ const Landing = () => {
           </svg>
         </button><div className="grid grid-cols-2 gap-4 mt-6 w-11/12 max-w-md">
           <div className="relative bg-gray-800 rounded-lg overflow-hidden">
-            <img src="/Public/image.png" alt="Margarita" className="w-full h-32 object-cover" />
+            <img src="../image/cocktail.jpg" alt="Margarita" className="w-full h-32 object-cover" />
             <div className="p-2">
               <h3 className="text-white text-sm font-semibold">Margarita</h3>
               <p className="text-gray-400 text-xs">easy</p>
