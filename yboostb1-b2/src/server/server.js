@@ -26,11 +26,10 @@ db.connect((err) => {
     console.log('Connecté à MySQL');
 });
 
-
 app.get('/cocktails', (req, res) => {
-    db.query('SELECT Id, Name FROM cocktail', (err, results) => {
+    db.query('SELECT * FROM cocktail', (err, results) => {
         if (err) {
-            return res.status(500).json({ error: 'Erreur lors de la récupération des tâches ' });
+            return res.status(500).json({ error: 'Erreur lors de la récupération des cocktails' });
         }
         res.json(results);
     });
