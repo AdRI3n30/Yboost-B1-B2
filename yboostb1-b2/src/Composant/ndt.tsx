@@ -8,18 +8,17 @@ interface NdtProps {
 
 const Ndt: React.FC<NdtProps> = ({ name, difficulty, time }) => {
   return (
-    <div>
-      <div className="flex flex-column w-screen h-auto justify-center">
-        <div className="bg-white w-auto h-8 flex mt-6 px-4 rounded-md">
-          <h1 className="text-2xl font-bold text-black">Name : {name}</h1>
-        </div>
+    <div className="w-full flex flex-col items-center mt-6">
+      <div className="bg-gradient-to-r from-green-500 to-emerald-400 w-full md:w-3/4 lg:w-1/2 h-14 flex items-center justify-center rounded-md shadow-md mb-4">
+        <h1 className="text-xl font-semibold text-white">{name}</h1>
       </div>
-      <div className="flex flex-row w-screen h-auto justify-center space-x-24">
-        <div className="bg-white w-28 h-8 flex mt-4 justify-center items-center rounded-md">
-          <h1 className="text-xl font-bold text-black">Difficulté : {difficulty}</h1>
+
+      <div className="w-full flex flex-wrap justify-center gap-6">
+        <div className="bg-gradient-to-r from-yellow-400 to-orange-300 w-40 h-12 flex justify-center items-center rounded-md shadow-md">
+          <h1 className="text-lg font-semibold text-white">Difficulté: {difficulty}</h1>
         </div>
-        <div className="bg-white w-28 h-8 flex mt-4 justify-center items-center rounded-md">
-          <h1 className="text-xl font-bold text-black">Temps de préparation : {time}</h1>
+        <div className="bg-gradient-to-r from-blue-500 to-teal-300 w-40 h-12 flex justify-center items-center rounded-md shadow-md">
+          <h1 className="text-lg font-semibold text-white">Temps: {time} min</h1>
         </div>
       </div>
     </div>
