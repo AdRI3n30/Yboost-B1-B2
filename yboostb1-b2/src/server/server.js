@@ -38,17 +38,43 @@ app.get('/cocktails', (req, res) => {
 app.get('/cocktails/:id', (req, res) => {
     const cocktailId = parseInt(req.params.id);
 
-    db.query('SELECT Id, Name, Descri, Id_difficulte, Image, Ingredients, Temps FROM cocktail WHERE id = ?', [cocktailId], (err, results) => {
+    const query = `
+        SELECT c.Id, c.Name, c.Descri, c.Id_difficulte, d.Difficulte, c.Image, c.Temps, 
+               i.Ingredient_Id, i.Name AS Ingredient, r.Quantity
+        FROM cocktail c
+        LEFT JOIN difficulte d ON c.Id_difficulte = d.Id_difficulte
+        LEFT JOIN recette r ON c.Id = r.Cocktail_Id
+        LEFT JOIN ingredient i ON r.Ingredient_Id = i.Ingredient_Id
+        WHERE c.Id = ?
+    `;
+
+    db.query(query, [cocktailId], (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Erreur lors de la récupération de la tâche ici1' });
-            return;
+            console.error('SQL Error:', err);
+            return res.status(500).json({ error: 'Erreur lors de la récupération du cocktail' });
+        }
+    
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Cocktail non trouvé' });
         }
 
-        if (results.length > 0) {
-            res.json(results[0]);
-        } else {
-            res.status(404).json({ error: 'Tâche non trouvée' });
-        }
+        // Regrouper les résultats pour structurer la réponse JSON
+        const cocktail = {
+            Id: results[0].Id,
+            Name: results[0].Name,
+            Description: results[0].Descri,
+            Difficulte: results[0].Difficulte,
+            Image: results[0].Image,
+            Temps: results[0].Temps,
+            Ingredients: results.map(row => ({
+                Id: row.Ingredient_Id,
+                Name: row.Ingredient,
+                Quantity: row.Quantity
+            }))
+        };
+
+        res.json(cocktail);
     });
 });
 
