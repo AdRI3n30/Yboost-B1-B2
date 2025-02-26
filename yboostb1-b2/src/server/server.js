@@ -26,11 +26,10 @@ db.connect((err) => {
     console.log('Connecté à MySQL');
 });
 
-
 app.get('/cocktails', (req, res) => {
-    db.query('SELECT Id, Name FROM cocktail', (err, results) => {
+    db.query('SELECT * FROM cocktail', (err, results) => {
         if (err) {
-            return res.status(500).json({ error: 'Erreur lors de la récupération des tâches ' });
+            return res.status(500).json({ error: 'Erreur lors de la récupération des cocktails' });
         }
         res.json(results);
     });
@@ -39,79 +38,130 @@ app.get('/cocktails', (req, res) => {
 app.get('/cocktails/:id', (req, res) => {
     const cocktailId = parseInt(req.params.id);
 
-    db.query('SELECT Id, Name, Descri, Id_difficulte, Image, Ingredients, Temps FROM cocktail WHERE id = ?', [cocktailId], (err, results) => {
+    const query = `
+        SELECT c.Id, c.Name, c.Descri, c.Id_difficulte, d.Difficulte, c.Image, c.Temps, 
+               i.Ingredient_Id, i.Name AS Ingredient, r.Quantity
+        FROM cocktail c
+        LEFT JOIN difficulte d ON c.Id_difficulte = d.Id_difficulte
+        LEFT JOIN recette r ON c.Id = r.Cocktail_Id
+        LEFT JOIN ingredient i ON r.Ingredient_Id = i.Ingredient_Id
+        WHERE c.Id = ?
+    `;
+
+    db.query(query, [cocktailId], (err, results) => {
         if (err) {
-            res.status(500).json({ error: 'Erreur lors de la récupération de la tâche ici1' });
-            return;
+            console.error('SQL Error:', err);
+            return res.status(500).json({ error: 'Erreur lors de la récupération du cocktail' });
+        }
+    
+
+        if (results.length === 0) {
+            return res.status(404).json({ error: 'Cocktail non trouvé' });
         }
 
-        if (results.length > 0) {
-            res.json(results[0]);
-        } else {
-            res.status(404).json({ error: 'Tâche non trouvée' });
-        }
+        // Regrouper les résultats pour structurer la réponse JSON
+        const cocktail = {
+            Id: results[0].Id,
+            Name: results[0].Name,
+            Description: results[0].Descri,
+            Difficulte: results[0].Difficulte,
+            Image: results[0].Image,
+            Temps: results[0].Temps,
+            Ingredients: results.map(row => ({
+                Id: row.Ingredient_Id,
+                Name: row.Ingredient,
+                Quantity: row.Quantity
+            }))
+        };
+
+        res.json(cocktail);
     });
 });
 
 
 app.post('/cocktails', (req, res) => {
-    const { description } = req.body;
+    const { name, description, difficulte, image, ingredients, temps } = req.body;
 
-    if (!description) {
-        return res.status(400).json({ error: 'La description est requise' });
+    if (!name || !description || !difficulte || !ingredients) {
+        return res.status(400).json({ error: 'Le nom, la description, la difficulté, et les ingrédients sont requis' });
     }
 
-    db.query('INSERT INTO cocktail ( Name, Descri, Id_difficulte, Image, Ingredients, Temps) VALUES (?)', [description], (err, result) => {
-        if (err) {
-            res.status(500).json({ error: 'Erreur lors de l\'ajout de la tâche' });
-            return;
-        }
+    // Assurez-vous que ingredients soit bien une chaîne au format JSON ou une structure compatible
+    const ingredientsString = JSON.stringify(ingredients);
 
-        const newCocktail = { id: result.insertId, Name, Descri, Id_difficulte, Image, Ingredients, Temps };
-        res.status(201).json({ message: 'Tâche ajoutée avec succès', cocktail: newCocktail });
-    });
+    db.query(
+        'INSERT INTO cocktail (Name, Description, Id_difficulte, Image, Ingredients, Temps) VALUES (?, ?, ?, ?, ?, ?)', 
+        [name, description, difficulte, image || null, ingredientsString, temps || null], 
+        (err, result) => {
+            if (err) {
+                res.status(500).json({ error: 'Erreur lors de l\'ajout du cocktail' });
+                return;
+            }
+
+            const newCocktail = {
+                Id: result.insertId,
+                Name: name,
+                Description: description,
+                Difficulte: difficulte,
+                Image: image,
+                Ingredients: ingredients,
+                Temps: temps
+            };
+
+            res.status(201).json({ message: 'Cocktail ajouté avec succès', cocktail: newCocktail });
+        }
+    );
 });
+
 
 
 app.put('/cocktail/:id', (req, res) => {
     const cocktailId = parseInt(req.params.id);
-    const { description } = req.body;
+    const { name, description, difficulte, image, ingredients, temps } = req.body;
 
-    if (!description) {
-        return res.status(400).json({ error: 'La description est requise' });
+    if (!name || !description || !difficulte || !ingredients) {
+        return res.status(400).json({ error: 'Le nom, la description, la difficulté, et les ingrédients sont requis' });
     }
 
-    db.query('UPDATE cocktail SET description = ? WHERE id = ?', [description, cocktailId], (err, result) => {
-        if (err) {
-            res.status(500).json({ error: 'Erreur lors de la mise à jour de la tâche' });
-            return;
-        }
+    const ingredientsString = JSON.stringify(ingredients);
 
-        if (result.affectedRows > 0) {
-            res.json({ message: 'Tâche mise à jour avec succès' });
-        } else {
-            res.status(404).json({ error: 'Tâche non trouvée' });
+    db.query(
+        'UPDATE cocktail SET Name = ?, Description = ?, Id_difficulte = ?, Image = ?, Ingredients = ?, Temps = ? WHERE Id = ?', 
+        [name, description, difficulte, image || null, ingredientsString, temps || null, cocktailId], 
+        (err, result) => {
+            if (err) {
+                res.status(500).json({ error: 'Erreur lors de la mise à jour du cocktail' });
+                return;
+            }
+
+            if (result.affectedRows > 0) {
+                res.json({ message: 'Cocktail mis à jour avec succès' });
+            } else {
+                res.status(404).json({ error: 'Cocktail non trouvé' });
+            }
         }
-    });
+    );
 });
+
 
 
 app.delete('/cocktail/:id', (req, res) => {
     const cocktailId = parseInt(req.params.id);
 
-    db.query('DELETE FROM cocktail WHERE id = ?', [cocktailId], (err, result) => {
+    db.query('DELETE FROM cocktail WHERE Id = ?', [cocktailId], (err, result) => {
         if (err) {
-            res.status(500).json({ error: 'Erreur lors de la suppression de la tâche' });
+            res.status(500).json({ error: 'Erreur lors de la suppression du cocktail' });
             return;
         }
 
         if (result.affectedRows > 0) {
-            res.json({ message: 'Tâche supprimée avec succès' });
+            res.json({ message: 'Cocktail supprimé avec succès' });
         } else {
-            res.status(404).json({ error: 'Tâche non trouvée' });
+            res.status(404).json({ error: 'Cocktail non trouvé' });
         }
     });
 });
+
 
 
 

@@ -1,8 +1,12 @@
 -- phpMyAdmin SQL Dump
 -- version 5.2.1
+-- version 5.2.1
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
+-- Généré le : mer. 15 jan. 2025 à 13:13
+-- Version du serveur : 9.1.0
+-- Version de PHP : 8.3.14
 -- Généré le : mer. 15 jan. 2025 à 13:13
 -- Version du serveur : 9.1.0
 -- Version de PHP : 8.3.14
@@ -223,6 +227,13 @@ INSERT INTO `recette` (`Id`, `Cocktail_Id`, `Ingredient_Id`, `Quantity`) VALUES
 --
 ALTER TABLE `cocktail`
   ADD CONSTRAINT `cocktail_ibfk_1` FOREIGN KEY (`Id_difficulte`) REFERENCES `difficulte` (`Id_difficulte`) ON DELETE SET NULL;
+
+--
+-- Contraintes pour la table `recette`
+--
+ALTER TABLE `recette`
+  ADD CONSTRAINT `recette_ibfk_1` FOREIGN KEY (`Cocktail_Id`) REFERENCES `cocktail` (`Id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `recette_ibfk_2` FOREIGN KEY (`Ingredient_Id`) REFERENCES `ingredient` (`Ingredient_Id`) ON DELETE CASCADE;
 
 --
 -- Contraintes pour la table `recette`
