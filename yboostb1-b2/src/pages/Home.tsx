@@ -12,31 +12,31 @@ const Home = () => {
 
     <div className='absolute w-full h-auto bg-black mt-24 pb-20 pl-[2.20rem]'>
     <div id='contenue' className='relative flex flex-wrap gap-8 justify-start mt-8 ' >
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
-      <Landing />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
+      <Landing image={undefined} name={undefined} difficulty={undefined} time={undefined} />
     </div>
     </div>
 
