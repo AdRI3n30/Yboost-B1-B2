@@ -80,63 +80,88 @@ app.get('/cocktails/:id', (req, res) => {
 
 
 app.post('/cocktails', (req, res) => {
-    const { description } = req.body;
+    const { name, description, difficulte, image, ingredients, temps } = req.body;
 
-    if (!description) {
-        return res.status(400).json({ error: 'La description est requise' });
+    if (!name || !description || !difficulte || !ingredients) {
+        return res.status(400).json({ error: 'Le nom, la description, la difficulté, et les ingrédients sont requis' });
     }
 
-    db.query('INSERT INTO cocktail ( Name, Descri, Id_difficulte, Image, Ingredients, Temps) VALUES (?)', [description], (err, result) => {
-        if (err) {
-            res.status(500).json({ error: 'Erreur lors de l\'ajout de la tâche' });
-            return;
-        }
+    // Assurez-vous que ingredients soit bien une chaîne au format JSON ou une structure compatible
+    const ingredientsString = JSON.stringify(ingredients);
 
-        const newCocktail = { id: result.insertId, Name, Descri, Id_difficulte, Image, Ingredients, Temps };
-        res.status(201).json({ message: 'Tâche ajoutée avec succès', cocktail: newCocktail });
-    });
+    db.query(
+        'INSERT INTO cocktail (Name, Description, Id_difficulte, Image, Ingredients, Temps) VALUES (?, ?, ?, ?, ?, ?)', 
+        [name, description, difficulte, image || null, ingredientsString, temps || null], 
+        (err, result) => {
+            if (err) {
+                res.status(500).json({ error: 'Erreur lors de l\'ajout du cocktail' });
+                return;
+            }
+
+            const newCocktail = {
+                Id: result.insertId,
+                Name: name,
+                Description: description,
+                Difficulte: difficulte,
+                Image: image,
+                Ingredients: ingredients,
+                Temps: temps
+            };
+
+            res.status(201).json({ message: 'Cocktail ajouté avec succès', cocktail: newCocktail });
+        }
+    );
 });
+
 
 
 app.put('/cocktail/:id', (req, res) => {
     const cocktailId = parseInt(req.params.id);
-    const { description } = req.body;
+    const { name, description, difficulte, image, ingredients, temps } = req.body;
 
-    if (!description) {
-        return res.status(400).json({ error: 'La description est requise' });
+    if (!name || !description || !difficulte || !ingredients) {
+        return res.status(400).json({ error: 'Le nom, la description, la difficulté, et les ingrédients sont requis' });
     }
 
-    db.query('UPDATE cocktail SET description = ? WHERE id = ?', [description, cocktailId], (err, result) => {
-        if (err) {
-            res.status(500).json({ error: 'Erreur lors de la mise à jour de la tâche' });
-            return;
-        }
+    const ingredientsString = JSON.stringify(ingredients);
 
-        if (result.affectedRows > 0) {
-            res.json({ message: 'Tâche mise à jour avec succès' });
-        } else {
-            res.status(404).json({ error: 'Tâche non trouvée' });
+    db.query(
+        'UPDATE cocktail SET Name = ?, Description = ?, Id_difficulte = ?, Image = ?, Ingredients = ?, Temps = ? WHERE Id = ?', 
+        [name, description, difficulte, image || null, ingredientsString, temps || null, cocktailId], 
+        (err, result) => {
+            if (err) {
+                res.status(500).json({ error: 'Erreur lors de la mise à jour du cocktail' });
+                return;
+            }
+
+            if (result.affectedRows > 0) {
+                res.json({ message: 'Cocktail mis à jour avec succès' });
+            } else {
+                res.status(404).json({ error: 'Cocktail non trouvé' });
+            }
         }
-    });
+    );
 });
+
 
 
 app.delete('/cocktail/:id', (req, res) => {
     const cocktailId = parseInt(req.params.id);
 
-    db.query('DELETE FROM cocktail WHERE id = ?', [cocktailId], (err, result) => {
+    db.query('DELETE FROM cocktail WHERE Id = ?', [cocktailId], (err, result) => {
         if (err) {
-            res.status(500).json({ error: 'Erreur lors de la suppression de la tâche' });
+            res.status(500).json({ error: 'Erreur lors de la suppression du cocktail' });
             return;
         }
 
         if (result.affectedRows > 0) {
-            res.json({ message: 'Tâche supprimée avec succès' });
+            res.json({ message: 'Cocktail supprimé avec succès' });
         } else {
-            res.status(404).json({ error: 'Tâche non trouvée' });
+            res.status(404).json({ error: 'Cocktail non trouvé' });
         }
     });
 });
+
 
 
 
