@@ -65,7 +65,7 @@ const CocktailList: React.FC = () => {
               </div>
               <div className="p-2">
                 <h2 className="text-white text-sm font-semibold">{cocktail.Name}</h2>
-                <p className="text-gray-400 text-xs">{cocktail.Id_Difficulte}</p>
+                <p className="text-gray-400 text-xs">{cocktail.Id_difficulte}</p>
                 <p className="text-gray-400 text-xs">{cocktail.Temps} min</p>
               </div>
             </Link>
