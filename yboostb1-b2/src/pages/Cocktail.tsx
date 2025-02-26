@@ -90,7 +90,7 @@ const Cocktail: React.FC = () => {
       </style>
 
       <h1 className="text-4xl font-bold text-green-400 mb-4">
-        {cocktail.Name} <span className="text-blue-300">Details</span>
+        {cocktail.Name} 
       </h1>
 
       <img
