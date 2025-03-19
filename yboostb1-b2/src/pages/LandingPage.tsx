@@ -1,8 +1,9 @@
 import React from 'react';
+import Navigation_barre from '../Composant/Navigation_barre.tsx';
 
 const LandingPage = () => {
   return (
-    <h1>Landing Page</h1>
+    <Navigation_barre />
   );
 };
 
