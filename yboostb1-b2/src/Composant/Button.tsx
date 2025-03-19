@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 
 const CustomButton = ({ to, icon }) => {
   return (
-    <button className="hover:text-white">
+    <button className="hover:text-white m-2">
       <Link className="text-white hover:text-gray-300 transition duration-200" to={to}>
         {icon && (
           <svg

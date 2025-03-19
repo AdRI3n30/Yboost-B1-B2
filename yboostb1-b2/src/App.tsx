@@ -6,7 +6,7 @@ import List from './pages/List.tsx';
 import Favori from './pages/Favori.tsx';
 import Cocktail from './pages/Cocktail.tsx';
 import Login from './pages/Login.tsx';
-import Accueil from './pages/Accueil.tsx';
+import TestB1 from './pages/testB1.tsx';
 
 const App = () => {
   return (
@@ -20,6 +20,7 @@ const App = () => {
         <Route path="/cocktail" element={<Cocktail />} />
         <Route path="/formulaire" element={<Login />} />
         <Route path="/test" element={<Accueil />} />
+        <Route path="/cocktails/:id" element={<Cocktail />} />
       </Routes>
     </Router>
   );
