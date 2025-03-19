@@ -27,6 +27,7 @@ const CocktailList: React.FC = () => {
         }
 
         const data = await response.json();
+        console.log(data);
         setCocktails(data);
       } catch (error: any) {
         console.error("Erreur lors de la récupération des cocktails :", error.message);
@@ -35,7 +36,6 @@ const CocktailList: React.FC = () => {
         setLoading(false);
       }
     };
-
     fetchCocktails();
   }, []);
 
@@ -51,33 +51,30 @@ const CocktailList: React.FC = () => {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {cocktails.map((cocktail) => (
-            <div
+            <Link
               key={cocktail.Id}
-              className="bg-gray-800 rounded-lg shadow-lg overflow-hidden"
+              to={`/cocktails/${cocktail.Id}`} // Lien vers la page de détails du cocktail
+              className="relative bg-gray-800 rounded-lg overflow-hidden shadow-[0_0_9px_rgba(0,0,0,0.2)]"
             >
               <div className="relative">
                 <img
                   src={cocktail.Image}
                   alt={cocktail.Name}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-32 object-cover"
                 />
-                <button className="absolute top-4 right-4 text-yellow-400 text-2xl">
-                  ♥
-                </button>
               </div>
-              <div className="p-4">
-                <h2 className="text-lg font-semibold">{cocktail.Name}</h2>
-                <div className="flex justify-between items-center text-sm text-gray-400 mt-2">
-                  <span>{cocktail.Id_difficulte}</span>
-                  <span>{cocktail.Temps}</span>
-                </div>
+              <div className="p-2">
+                <h2 className="text-white text-sm font-semibold">{cocktail.Name}</h2>
+                <p className="text-gray-400 text-xs">{cocktail.Id_Difficulte}</p>
+                <p className="text-gray-400 text-xs">{cocktail.Temps} min</p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}
     </div>
   );
 };
+
 
 export default CocktailList;
