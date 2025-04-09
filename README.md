@@ -1,50 +1,38 @@
-# Yboost-B1-B2
- Projet Yboost : Dev API / Site regroupant les filière B1 et B2 informatique
+# 🍸 Projet Web - Cocktails (B1 & B2 Informatique)
+Ce projet web est une application autour de l’univers des cocktails. Il combine une API backend et un site frontend développé en React. Il est réalisé en collaboration entre les étudiants des filières B1 et B2 informatique.
+
+# 🚀 Lancement du projet
+Pour démarrer le projet en local :
+
+cd yboostb1-b2
+npm start
 
 
-
-# Commentaire React 
- React :
- Success! Created yboostb1-b2 at C:\Users\Adrien\Desktop\Documents\GitHub\Yboost-B1-B2\yboostb1-b2
-Inside that directory, you can run several commands:
-
-  npm start
-    Starts the development server.
-
-  npm run build
-    Bundles the app into static files for production.
-
-  npm test
-    Starts the test runner.
-
-  npm run eject
-    Removes this tool and copies build dependencies, configuration files
-    and scripts into the app directory. If you do this, you can’t go back!
-
-We suggest that you begin by typing:
+# 🔧 Mise à jour de l’environnement (IDE)
+Avant de lancer le projet, assurez-vous d’avoir installé les dépendances nécessaires :
 
 
+npm i
+npm install react-router-dom
+npm install mysql2
 
-#Lancement du Site
+# 📚 Technologies utilisées
 
-  - cd yboostb1-b2
+Frontend : React.js
 
-  - npm start (npm run server et npm run client)
+Routing : React Router DOM
 
+Backend : Node.js avec une base de données MySQL
 
+BDD : mysql2
 
+# 💡 Fonctionnalités principales
 
-  # Github 
+Recherche de cocktails par nom, ingrédient, type...
 
-  - git checkout 
-  - git fetch origin 
-  - git rebase origin/main
+Fiches détaillées des cocktails (recettes, ingrédients, etc.)
 
+Ajout / Suppression de cocktails (selon les rôles utilisateurs)
 
-  # Pour mettre à jour 
-
-  - npm i 
-  - npm install react-router-dom
-  - npm install mysql2
-
+Gestion API côté serveur pour interagir avec la BDD
 
