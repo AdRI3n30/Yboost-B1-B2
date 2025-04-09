@@ -6,7 +6,8 @@ import List from './pages/List.tsx';
 import Favori from './pages/Favori.tsx';
 import Cocktail from './pages/Cocktail.tsx';
 import LandingPage from './pages/LandingPage.tsx';
-import LandingProfil from './pages/LandingProfil.tsx';
+import Preparation from './pages/Preparation.tsx';
+import Test from './pages/Test.tsx';
 
 
 const App = () => {
@@ -20,8 +21,8 @@ const App = () => {
         <Route path="/list" element={<List />} />
         <Route path="/favori" element={<Favori />} />
         <Route path="/cocktails/:id" element={<Cocktail />} />
-        <Route path="/cocktail" element={<Cocktail />} /> 
-        <Route path="/profil" element={<LandingProfil />} />          
+        <Route path="/preparation" element={<Preparation/>} />
+        <Route path="/test" element={<Test/>} />
       </Routes>
     </Router>
   );
