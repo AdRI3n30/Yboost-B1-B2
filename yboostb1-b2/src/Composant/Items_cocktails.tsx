@@ -1,5 +1,7 @@
 import React from "react";
-import cocktailimg from "../image/cocktail2.jpg";
+
+const cocktailimg = require("../image/cocktail2.jpg");
+
 
 const Items_cocktails = () => {
     return (
