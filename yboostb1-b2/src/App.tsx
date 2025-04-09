@@ -8,6 +8,7 @@ import Cocktail from './pages/Cocktail.tsx';
 import LandingPage from './pages/LandingPage.tsx';
 import Preparation from './pages/Preparation.tsx';
 import Test from './pages/Test.tsx';
+import Liste_cocktail from './pages/Liste_cocktail.tsx';
 
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         <Route path="/cocktails/:id" element={<Cocktail />} />
         <Route path="/preparation" element={<Preparation/>} />
         <Route path="/test" element={<Test/>} />
+        <Route path="/liste_cocktail" element={<Liste_cocktail/>} />
       </Routes>
     </Router>
   );
