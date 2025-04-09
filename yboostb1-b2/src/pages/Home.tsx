@@ -1,44 +1,87 @@
-import React from 'react';
-import Landing from '../Composant/Landing.tsx';
-import SearchBar from '../Composant/SearchBar.tsx';
-import { Link } from 'react-router-dom';
-import CustomButton from '../Composant/Button.tsx';
+import React from "react";
+import FondH from "../Public/Fond3.png";
+import fleche from "../Public/weui_arrow-outlined.png";
+import cock from "../Public/cock.jpeg";
+import bg from "../Public/bg.png";
 
 const Home = () => {
   return (
-    <div className="bg-black min-h-screen text-gray-300 flex flex-col items-center pt-6">
-      <h1 className="text-4xl font-bold text-green-400">
-        Shake <span className="text-blue-300">LAB</span>
-      </h1>
-      <SearchBar />
-      <Landing />
-      <Landing />
-      
-      <div className="fixed bottom-0 w-full bg-black py-3 flex justify-around text-gray-400">
-        <CustomButton 
-        to="/" 
-        icon="M575.8 255.5c0 18-15 32.1-32 32.1l-32 0 .7 160.2c0 2.7-.2 5.4-.5 8.1l0 16.2c0 22.1-17.9 40-40 40l-16 0c-1.1 0-2.2 0-3.3-.1c-1.4 .1-2.8 .1-4.2 .1L416 512l-24 0c-22.1 0-40-17.9-40-40l0-24 0-64c0-17.7-14.3-32-32-32l-64 0c-17.7 0-32 14.3-32 32l0 64 0 24c0 22.1-17.9 40-40 40l-24 0-31.9 0c-1.5 0-3-.1-4.5-.2c-1.2 .1-2.4 .2-3.6 .2l-16 0c-22.1 0-40-17.9-40-40l0-112c0-.9 0-1.9 .1-2.8l0-69.7-32 0c-18 0-32-14-32-32.1c0-9 3-17 10-24L266.4 8c7-7 15-8 22-8s15 2 21 7L564.8 231.5c8 7 12 15 11 24z"
-      >
-      </CustomButton>
-        <CustomButton 
-        to="/list" 
-        icon="M432 240c53 0 96-43 96-96s-43-96-96-96c-35.5 0-66.6 19.3-83.2 48l-52.6 0C316 40.1 369.3 0 432 0c79.5 0 144 64.5 144 144s-64.5 144-144 144c-27.7 0-53.5-7.8-75.5-21.3l35.4-35.4c12.2 5.6 25.8 8.7 40.1 8.7zM1.8 142.8C5.5 133.8 14.3 128 24 128l368 0c9.7 0 18.5 5.8 22.2 14.8s1.7 19.3-5.2 26.2l-177 177L232 464l64 0c13.3 0 24 10.7 24 24s-10.7 24-24 24l-88 0-88 0c-13.3 0-24-10.7-24-24s10.7-24 24-24l64 0 0-118.1L7 169c-6.9-6.9-8.9-17.2-5.2-26.2z"
-        >
-        </CustomButton>
-        <CustomButton 
-        to="/favori" 
-        icon="M225.8 468.2l-2.5-2.3L48.1 303.2C17.4 274.7 0 234.7 0 192.8l0-3.3c0-70.4 50-130.8 119.2-144C158.6 37.9 198.9 47 231 69.6c9 6.4 17.4 13.8 25 22.3c4.2-4.8 8.7-9.2 13.5-13.3c3.7-3.2 7.5-6.2 11.5-9c0 0 0 0 0 0C313.1 47 353.4 37.9 392.8 45.4C462 58.6 512 119.1 512 189.5l0 3.3c0 41.9-17.4 81.9-48.1 110.4L288.7 465.9l-2.5 2.3c-8.2 7.6-19 11.9-30.2 11.9s-22-4.2-30.2-11.9zM239.1 145c-.4-.3-.7-.7-1-1.1l-17.8-20-.1-.1s0 0 0 0c-23.1-25.9-58-37.7-92-31.2C81.6 101.5 48 142.1 48 189.5l0 3.3c0 28.5 11.9 55.8 32.8 75.2L256 430.7 431.2 268c20.9-19.4 32.8-46.7 32.8-75.2l0-3.3c0-47.3-33.6-88-80.1-96.9c-34-6.5-69 5.4-92 31.2c0 0 0 0-.1 .1s0 0-.1 .1l-17.8 20c-.3 .4-.7 .7-1 1.1c-4.5 4.5-10.6 7-16.9 7s-12.4-2.5-16.9-7z"
-        >
-        </CustomButton>
-        <CustomButton 
-        to="/list" 
-        icon="M495.9 166.6c3.2 8.7 .5 18.4-6.4 24.6l-43.3 39.4c1.1 8.3 1.7 16.8 1.7 25.4s-.6 17.1-1.7 25.4l43.3 39.4c6.9 6.2 9.6 15.9 6.4 24.6c-4.4 11.9-9.7 23.3-15.8 34.3l-4.7 8.1c-6.6 11-14 21.4-22.1 31.2c-5.9 7.2-15.7 9.6-24.5 6.8l-55.7-17.7c-13.4 10.3-28.2 18.9-44 25.4l-12.5 57.1c-2 9.1-9 16.3-18.2 17.8c-13.8 2.3-28 3.5-42.5 3.5s-28.7-1.2-42.5-3.5c-9.2-1.5-16.2-8.7-18.2-17.8l-12.5-57.1c-15.8-6.5-30.6-15.1-44-25.4L83.1 425.9c-8.8 2.8-18.6 .3-24.5-6.8c-8.1-9.8-15.5-20.2-22.1-31.2l-4.7-8.1c-6.1-11-11.4-22.4-15.8-34.3c-3.2-8.7-.5-18.4 6.4-24.6l43.3-39.4C64.6 273.1 64 264.6 64 256s.6-17.1 1.7-25.4L22.4 191.2c-6.9-6.2-9.6-15.9-6.4-24.6c4.4-11.9 9.7-23.3 15.8-34.3l4.7-8.1c6.6-11 14-21.4 22.1-31.2c5.9-7.2 15.7-9.6 24.5-6.8l55.7 17.7c13.4-10.3 28.2-18.9 44-25.4l12.5-57.1c2-9.1 9-16.3 18.2-17.8C227.3 1.2 241.5 0 256 0s28.7 1.2 42.5 3.5c9.2 1.5 16.2 8.7 18.2 17.8l12.5 57.1c15.8 6.5 30.6 15.1 44 25.4l55.7-17.7c8.8-2.8 18.6-.3 24.5 6.8c8.1 9.8 15.5 20.2 22.1 31.2l4.7 8.1c6.1 11 11.4 22.4 15.8 34.3zM256 336a80 80 0 1 0 0-160 80 80 0 1 0 0 160z"
-        >
-        </CustomButton>
-      </div>
-    </div>
+    <>
+      <section className=" p-4 relative flex justify-center w-full h-screen mb-12">
+        <div className="w-full bg-cover bg-center relative rounded-[25px] shadow-lg " style={{ backgroundImage: `url(${FondH})` }}>
+          <div className="w-[25px] h-[25px] absolute bg-red-0 bottom-0 right-[305px] rounded-full shadow-[8.5px_9px_0_#fff]">
+          </div>
+          <div className="w-[25px] h-[25px] absolute bg-red-0 bottom-[10.5%] right-[0px] rounded-full shadow-[8.5px_9px_0_#fff]">
+          </div>
+          <div className="absolute top-[35%] left-8 text-left text-white">
+              <h1 className="text-2xl sm:text-4xl md:text-6xl font-poppins  mb-4">ShakeLabs</h1>
+              <p className="text-sm sm:text-lg md:text-xl font-poppins font-light max-w-xl">
+                Bienvenue dans l’univers des cocktails où chaque recette <br />
+                raconte une histoire et chaque gorgée éveille les sens
+              </p>
+              </div>
+        </div>
+
+          <div className=" absolute bg-white w-[325px] h-[90px] bottom-0 right-0 border-white border-8 rounded-3xl ">
+          </div>
+
+          <button
+              onClick={() => (window.location.href = "/recipes")}
+              className=" absolute bottom-[2%] right-[1.5%] bg-white text-black w-[290px] h-[60px] rounded-[200px] shadow-md hover:bg-gray-200 transition duration-300 border-2 border-black text-sm sm:text-xl"
+            >
+              Explorer les recettes
+            </button>
+
+            <button
+              onClick={() => (window.location.href = "#A_propos")}
+              className=" absolute bg-center bg-contain w-[64px] h-[64px] bottom-[10%] left-[5%] rounded-[50%] border border-white border-2 "
+            >
+              <img src={fleche} alt="fleche" />
+            </button>
+      </section> 
+
+        <section className="mb-20 w-full"  style={{ backgroundImage: `url(${bg})`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
+          <div className="p-12 text-center ">
+            <h1 className="text-4xl  font-poppins text-black">
+              Plus qu’un cocktail, une <strong>expérience</strong>
+            </h1>
+            <p className="text-2xl text-black mt-5 px-4  font-poppins mx-auto">
+              Chez ShakeLabs, chaque boisson est pensée comme un voyage sensoriel.
+              <br />
+              Des classiques revisités aux créations originales, nous explorons
+              l’art du cocktail avec passion, précision… et <br />
+              une pointe d’audace.
+            </p>
+          </div>
+
+          <div className="mt-20 w-full flex items-around ">
+            <div className="pl-[15%] flex justify-center items-center flex-col w-full">
+              <h1 className=" text-4xl font-poppins font-semibold mb-6">
+                Notre Mission ?
+              </h1>
+              <p className="text-center text-2xl">
+                Faire découvrir (ou redécouvrir) le plaisir de savourer <br />
+                un bon cocktail, que ce soit chez soi ou entre amis, en <br />
+                proposant des recettes accessibles, des conseils de pro <br />
+                et des inspirations venues du monde entier.
+              </p>
+              
+            </div>
+            <div className="w-full flex justify-center items-center">
+              <div className="bg-gray-500 w-[50%] h-[250px] sm:h-[500px] rounded-2xl shadow-xl hover:scale-105 transition-transform duration-300" style={{ backgroundImage: `url(${cock})`, backgroundPosition: 'center', backgroundSize: 'cover' }} />
+            </div>
+          </div>
+
+          <div className="mt-20 text-center px-4">
+            <h1 className="text-3xl font-poppins text-black">
+              <strong>Découvrez</strong> des cocktails et leurs recettes incontournables <br />
+              pour <strong>épater</strong> vos invités et <strong>éveiller</strong> vos papilles
+            </h1>
+            <div className="w-1/2 sm:w-1/3 h-[2px] bg-black mt-4 mx-auto"></div>
+          </div>
+        </section>
+    </>    
   );
 };
 
 export default Home;
-
