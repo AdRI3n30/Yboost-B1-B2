@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import Landing from "../Composant/Landing.tsx";
-import { Link } from "react-router-dom";
-import CustomButton from "../Composant/Button.tsx";
-import Templet_cocktail from "../Composant/templet_cocktail.tsx";
-import Template_logo from "../Composant/template_logo.tsx";
-import NavigationBar from "../Composant/NavigationBar.tsx";
+import React from "react";
+import FondH from "../Public/Fond3.png";
+import fleche from "../Public/weui_arrow-outlined.png";
+import cock from "../Public/cock.jpeg";
+import bg from "../Public/bg.png";
 
 const Home = () => {
   return (
