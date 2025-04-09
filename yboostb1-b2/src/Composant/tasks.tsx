@@ -53,7 +53,7 @@ const CocktailList: React.FC = () => {
           {cocktails.map((cocktail) => (
             <Link
               key={cocktail.Id}
-              to={`/cocktails/${cocktail.Id}`} // Lien vers la page de détails du cocktail
+              to={`/cocktails/${cocktail.Id}`}
               className="relative bg-gray-800 rounded-lg overflow-hidden shadow-[0_0_9px_rgba(0,0,0,0.2)]"
             >
               <div className="relative">
