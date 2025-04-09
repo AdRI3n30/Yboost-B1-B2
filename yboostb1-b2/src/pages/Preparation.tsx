@@ -4,12 +4,12 @@ import shakerimg from "../image/shaker-a-cocktail_1.png";
 import solarimg from "../image/solar_hourglass-broken.png";
 import solarstarimg from "../image/solar_stars-broken.png"; 
 import Items_cocktails from "../Composant/Items_cocktails.tsx";
-
+import NavigationBarWeb from "../Composant/NavigationBarWeb.tsx"
 
 
 const Preparation = () => {
     return (
-        
+        <>
         <div Class="flex p-10 justify-center items-center h-screen ">
             <div class="w-full flex justify-center items-center ">
                 <img class="rounded-[55px] shadow-lg h-[650px] "src={cocktailimg} />
@@ -45,7 +45,7 @@ const Preparation = () => {
             </div>
 
         </div>
-        
+        </>
 
     );
 

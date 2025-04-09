@@ -3,15 +3,18 @@ import FondH from "../Public/Fond3.png";
 import fleche from "../Public/weui_arrow-outlined.png";
 import cock from "../Public/cock.jpeg";
 import bg from "../Public/bg.png";
+import NavigationBarWeb from "../Composant/NavigationBarWeb.tsx";
 
 const Home = () => {
   return (
     <>
       <section className=" p-4 relative flex justify-center w-full h-screen mb-12">
+      
         <div className="w-full bg-cover bg-center relative rounded-[25px] shadow-lg " style={{ backgroundImage: `url(${FondH})` }}>
+        <NavigationBarWeb enableButtonHome={true} />
           <div className="w-[25px] h-[25px] absolute bg-red-0 bottom-0 right-[305px] rounded-full shadow-[8.5px_9px_0_#fff]">
           </div>
-          <div className="w-[25px] h-[25px] absolute bg-red-0 bottom-[10.5%] right-[0px] rounded-full shadow-[8.5px_9px_0_#fff]">
+          <div className="w-[25px] h-[25px] absolute bg-red-0 bottom-[73px] right-[0px] rounded-full shadow-[8.5px_9px_0_#fff]">
           </div>
           <div className="absolute top-[35%] left-8 text-left text-white">
               <h1 className="text-2xl sm:text-4xl md:text-6xl font-poppins  mb-4">ShakeLabs</h1>
