@@ -1,63 +1,66 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from "react";
 
-const Caroussel = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
+const Carousel = () => {
   const images = [
-    "https://imgs.search.brave.com/zKBLgkPqkaoe9lu5kS9EJlUdBSPPOW7tnDuA-0_HglU/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly93d3cu/aXN0b2NrcGhvdG8u/Y29tL3Jlc291cmNl/cy9pbWFnZXMvRnJl/ZVBob3Rvcy9GcmVl/LVBob3RvLTc0MHg0/OTItMjE1ODIwMTIy/Mi5qcGc",
-    "https://imgs.search.brave.com/3cLUMmFbGSoL8WMRs5eOXcc1rQEH9wB_K_1yNAu-63s/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA5LzgzLzIzLzgx/LzM2MF9GXzk4MzIz/ODExNl80OG1OZnl2/SzlFWGJVMHlrWXZt/YmR5ZHl2MGFxSFVl/Vi5qcGc",
-    "https://imgs.search.brave.com/_8kl_Czv2EYgTEJEZuHzjR0vekGFNQOdvRLjK06MT4Y/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9tZWRp/YS5nZXR0eWltYWdl/cy5jb20vaWQvNjM2/MTc5OTk0L2ZyL3Bo/b3RvL2ltYWdlLW1p/Y3Jvc2NvcGlxdWUt/ZGUtbnltcGglQzMl/QTllLWRlLWxhLXRp/Z2UtZGFxdXN0aW8u/anBnP3M9NjEyeDYx/MiZ3PTAmaz0yMCZj/PVF6RDZfUTEwWEIz/d05PSzhaemUzcnVk/QTM4RVVtVzJJamNE/UTkxalpOU2s9",
+    "https://cdn-ikphhgl.nitrocdn.com/MDXiwuZNYFhpWkyKZnkUxOYMelioZPnB/assets/images/optimized/rev-e2def49/www.destinationcocktails.fr/wp-content/uploads/2019/11/cocktail-tropical-kamasutra.jpg",
+    "https://www.villaschweppes.com/app/uploads/2019/01/20736-le-cocktail-green-river-orig-3-683x1024.jpg",
+    "https://images.radio-canada.ca/q_auto,w_1200/v1/alimentation/recette/16x9/cocktail-sangria-noel.JPEG",
+    "https://www.liquor.com/thmb/IjKQql6LcjTyCWuqbi_aMicEL6c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/whiskey-smash-720x720-recipe-c696cdf017494dbd981e51dca3f4402e.jpg",
+    "https://img.cuisineaz.com/1024x768/2017/08/08/i131418-punch-des-iles-curacao-rondelles-d-orange-menthe-fraiche-et-cerises-confites.jpeg",
+    "https://cdn-ikphhgl.nitrocdn.com/MDXiwuZNYFhpWkyKZnkUxOYMelioZPnB/assets/images/optimized/rev-e2def49/www.destinationcocktails.fr/wp-content/uploads/2018/04/cocktail-manhattan-2.jpg",
   ];
 
-  const getCircularIndex = (index, length) => {
-    return (index + length) % length;
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const containerRef = useRef(null);
+  const timeoutRef = useRef(null);
+
+  const getCircularIndex = (index) => {
+    return (index + images.length) % images.length;
   };
 
-  const nextImage = () => {
-    setCurrentIndex((prevIndex) => getCircularIndex(prevIndex + 1, images.length));
+  const next = () => {
+    setCurrentIndex((prev) => getCircularIndex(prev + 1));
   };
 
   useEffect(() => {
-    const intervalId = setInterval(nextImage, 4000);
-    return () => clearInterval(intervalId);
-  }, []);
+    timeoutRef.current = setTimeout(() => {
+      next();
+    }, 4000);
+
+    return () => clearTimeout(timeoutRef.current);
+  }, [currentIndex]);
+
+  const visibleImages = [
+    images[getCircularIndex(currentIndex)],
+    images[getCircularIndex(currentIndex + 1)],
+    images[getCircularIndex(currentIndex + 2)],
+  ];
 
   return (
-    <div className="relative w-full h-[500px] flex justify-center items-center overflow-hidden">
-      <div className="relative flex justify-center items-center gap-4 w-[70%]">
-        {images.map((image, index) => {
-          const position = getCircularIndex(index - currentIndex, images.length);
-
-          // Calcul de la taille, opacité et translation en fonction de la position
-          const size = position === 1 ? 'scale-110' : 'scale-90';
-          const opacity = position === 1 ? 'opacity-100' : 'opacity-80';
-          const translate = position === 0 
-            ? '-translate-x-[130%]' 
-            : position === 2 
-            ? 'translate-x-[130%]' 
-            : 'translate-x-0';
-
-          // Uniformisation du z-index pour toutes les images
-          const zIndex = position === 1 ? 'z-30' : 'z-20';
-
-          return (
+    <div className="w-full h-[500px] bg-black flex items-center justify-center overflow-hidden relative">
+      <div
+        ref={containerRef}
+        className="flex transition-transform duration-700 ease-in-out"
+        style={{
+          transform: "translateX(0%)",
+          width: "900px",
+        }}
+      >
+        {visibleImages.map((src, idx) => (
+          <div
+            key={idx}
+            className="w-[300px] h-[400px] mx-4 flex-shrink-0 flex items-center justify-center"
+          >
             <img
-              key={index}
-              src={image}
-              alt={`carousel-${index}`}
-              className={`absolute transition-transform transition-opacity duration-1000 ease-in-out object-cover rounded-lg shadow-lg 
-                ${size} ${zIndex} ${opacity} ${translate}
-              `}
-              style={{
-                width: position === 1 ? '320px' : '280px',
-                height: position === 1 ? '420px' : '370px',
-                transition: 'transform 1s ease-in-out, opacity 1s ease-in-out, z-index 1s',
-              }}
+              src={src}
+              alt={`cocktail-${idx}`}
+              className="w-full h-full object-cover rounded-xl shadow-lg"
             />
-          );
-        })}
+          </div>
+        ))}
       </div>
     </div>
   );
 };
 
-export default Caroussel;
+export default Carousel;
