@@ -7,7 +7,7 @@ const Template_logo = ({enableSearchBar  = true}) => {
         return (
         <div className="z-50 w-full top-0 pb-4 fixed bg-black text-gray-300 flex flex-col items-center pt-6 p-4">
         <Logo />
-        <SearchBar />      
+        <SearchBar setSearchQuery={undefined} />      
         </div>
     );
     } else {
