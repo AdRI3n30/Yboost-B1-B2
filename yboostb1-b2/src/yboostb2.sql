@@ -59,7 +59,7 @@ INSERT INTO `cocktail` (`Id`, `Name`, `Descri`, `Id_difficulte`, `Image`, `Temps
 (10, 'Espresso Martini', 'Né dans les années 1980 grâce au barman londonien Dick Bradsell, le célèbre Espresso Martini est devenu un grand classique moderne. Un martini au café, c\'est une recette magique créée spécialement par son inventeur pour stimuler l\'organisme.', 1, NULL, NULL),
 (11, 'Manhattan', 'Le Manhattan est l\'un des plus grands classiques au monde, et ce depuis la fin du 19ème siècle où il était en Amérique l\'un des cocktails les plus à la mode. C\'est aujourd\'hui dans le monde entier que le Manhattan est le cocktail préféré d\'une quantité indénombrable de personnes !', 1, NULL, NULL),
 (12, 'Vodka Martini', 'La Vodka Martini est aussi appelée Vodkatini, cette variante du Dry Martini a été popularisé entre autres par James Bond, le célèbre personnage créé par Ian Fleming, qui aime effectivement siroter ce short drink.', 1, NULL, NULL),
-(13, 'Caribbean Coffe', 'Ce cocktail signature de Destination Cocktails a été créé en collaboration avec CODERUM et les cafés Jacques Vabre dans le cadre de la Transat Jacques Vabre Le Havre Normandie édition 2023.', 3, NULL, NULL);
+(13, 'Caribbean Coffee', 'Ce cocktail signature de Destination Cocktails a été créé en collaboration avec CODERUM et les cafés Jacques Vabre dans le cadre de la Transat Jacques Vabre Le Havre Normandie édition 2023.', 3, NULL, NULL);
 
 -- --------------------------------------------------------
 
