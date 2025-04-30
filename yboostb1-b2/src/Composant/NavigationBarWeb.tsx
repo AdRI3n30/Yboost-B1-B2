@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import { useMemo } from "react";
@@ -7,12 +7,13 @@ import back from '../Public/Fond3.png';
 
 const NavigationBarWeb: React.FC = () => {
     const location = useLocation();
+    const [isMenuOpen, setIsMenuOpen] = useState(false);
 
     const randomId = useMemo(() => {
         const minId = 1;
         const maxId = 20; // adapte selon ta base
         return Math.floor(Math.random() * (maxId - minId + 1)) + minId;
-      }, []);
+    }, []);
 
     const isActive = (path: string) => location.pathname === path;
 
@@ -21,15 +22,11 @@ const NavigationBarWeb: React.FC = () => {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className={`absolute top-[1.5rem] w-[96.7vw] h-20 p-2 flex items-center justify-center z-50 rounded-[25px] bg-cover ${(isActive("/home") || isActive("/apropos")) ? "bg-transparent" : ""}`}
+            className={`absolute top-[1.5rem] w-[96.7vw] h-20 p-2 flex items-center justify-between z-50 rounded-[25px] bg-cover ${(isActive("/home") || isActive("/apropos")) ? "bg-transparent" : ""}`}
             style={!(isActive("/home") || isActive("/apropos")) ? { backgroundImage: `url(${back})` } : {}}
         >
-            <motion.div
-                className="w-full h-full rounded-full border border-white bg-transparent flex items-center justify-between"
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.3, duration: 0.5 }}
-            >
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex w-full h-full rounded-full border border-white bg-transparent items-center justify-between">
                 <div className="flex space-x-1 h-full">
                     <Link to="/home">
                         <motion.button
@@ -86,18 +83,55 @@ const NavigationBarWeb: React.FC = () => {
                             }`}
                         >
                             <motion.img
-                            src={LogoC}
-                            alt="Cocktails Icon"
-                            className={`w-6 ml-[2px] h-6 transition-all duration-300 ${
-                                isActive("/cocktail") ? "invert" : "group-hover:invert"
-                            }`}
+                                src={LogoC}
+                                alt="Cocktails Icon"
+                                className={`w-6 ml-[2px] h-6 transition-all duration-300 ${
+                                    isActive("/cocktail") ? "invert" : "group-hover:invert"
+                                }`}
                                 whileHover={{ rotate: 360 }}
                                 transition={{ duration: 0.8 }}
                             />
                         </motion.button>
                     </Link>
                 </div>
-            </motion.div>
+            </div>
+
+            {/* Mobile Navigation */}
+            <div className="md:hidden flex items-center justify-start w-full h-full ml-2">
+                <button
+                    onClick={() => setIsMenuOpen(!isMenuOpen)}
+                    className="w-12 h-12 rounded-full border border-white bg-transparent flex items-center justify-center"
+                >
+                    {/* Hamburger Icon */}
+                    <div className="flex flex-col items-center justify-center space-y-1">
+                        <div className="w-6 h-1 bg-white rounded-lg"></div>
+                        <div className="w-6 h-1 bg-white rounded-lg"></div>
+                        <div className="w-6 h-1 bg-white rounded-lg"></div>
+                    </div>
+                </button>
+
+                {isMenuOpen && (
+                    <motion.div
+                        initial={{ opacity: 0, y: -20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="absolute top-20 w-[84%] bg-black bg-opacity-80 p-4 rounded-lg"
+                    >
+                        <Link to="/home" onClick={() => setIsMenuOpen(false)}>
+                            <div className="text-white py-2">Home</div>
+                        </Link>
+                        <Link to="/list" onClick={() => setIsMenuOpen(false)}>
+                            <div className="text-white py-2">Cocktails</div>
+                        </Link>
+                        <Link to="/apropos" onClick={() => setIsMenuOpen(false)}>
+                            <div className="text-white py-2">A propos</div>
+                        </Link>
+                        <Link to={`/cocktails/${randomId}`} onClick={() => setIsMenuOpen(false)}>
+                            <div className="text-white py-2">Random Cocktail</div>
+                        </Link>
+                    </motion.div>
+                )}
+            </div>
         </motion.div>
     );
 };
