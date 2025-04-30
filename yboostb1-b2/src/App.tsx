@@ -7,21 +7,25 @@ import LandingPage from './pages/LandingPage.tsx';
 import Preparation from './pages/Preparation.tsx';
 import Test from './pages/Test.tsx';
 import Liste_cocktail from './pages/Liste_cocktail.tsx';
+import NavigationBarWeb from './Composant/NavigationBarWeb.tsx';
+import Apropos from './pages/Apropos.tsx';
 
 const App = () => {
   return (
-    <Router>
-    
+<div className='p-6 w-full relative'>
+    <Router >
+          <NavigationBarWeb />
       <Routes>
         <Route path="/" element={<LandingPage />} />
         <Route path="/home" element={<Home />} />
         <Route path="/list" element={<List />} />
         <Route path="/cocktails/:id" element={<Cocktail />} />
         <Route path="/preparation" element={<Preparation/>} />
-        <Route path="/test" element={<Test/>} />
+        <Route path="/apropos" element={<Apropos/>} />
         <Route path="/liste_cocktail" element={<Liste_cocktail/>} />
       </Routes>
     </Router>
+    </div>
   );
 };
 

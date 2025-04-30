@@ -1,17 +1,16 @@
 import React from "react";
-import FondH from "../public/Fond3.png";
-import fleche from "../public/weui_arrow-outlined.png";
-import cock from "../public/cock.jpeg";
-import bg from "../public/bg.png";
+import FondH from "../Public/Fond3.png";
+import fleche from "../Public/weui_arrow-outlined.png";
+import cock from "../Public/cock.jpeg";
+import bg from "../Public/bg.png";
 import NavigationBarWeb from "../Composant/NavigationBarWeb.tsx";
 
 const Home = () => {
   return (
     <>
-      <section className=" p-4 relative flex justify-center w-full h-screen mb-12">
+      <section className=" relative flex justify-center w-full h-screen mb-12">
       
         <div className="w-full bg-cover bg-center relative rounded-[25px] shadow-lg " style={{ backgroundImage: `url(${FondH})` }}>
-        <NavigationBarWeb enableButtonHome={true} />
           <div className="w-[25px] h-[25px] absolute bg-red-0 bottom-0 right-[305px] rounded-full shadow-[8.5px_9px_0_#fff]">
           </div>
           <div className="w-[25px] h-[25px] absolute bg-red-0 bottom-[73px] right-[0px] rounded-full shadow-[8.5px_9px_0_#fff]">
@@ -29,21 +28,26 @@ const Home = () => {
           </div>
 
           <button
-              onClick={() => (window.location.href = "/recipes")}
+              onClick={() => (window.location.href = "/list")}
               className=" absolute bottom-[2%] right-[1.5%] bg-white text-black w-[290px] h-[60px] rounded-[200px] shadow-md hover:bg-gray-200 transition duration-300 border-2 border-black text-sm sm:text-xl"
             >
               Explorer les recettes
             </button>
 
             <button
-              onClick={() => (window.location.href = "#A_propos")}
+              onClick={() => {
+              const section = document.querySelector("#A_propos");
+              if (section) {
+                section.scrollIntoView({ behavior: "smooth" });
+              }
+              }}
               className=" absolute bg-center bg-contain w-[64px] h-[64px] bottom-[10%] left-[5%] rounded-[50%] border border-white border-2 "
             >
               <img src={fleche} alt="fleche" />
             </button>
       </section> 
 
-        <section className="mb-20 w-full"  style={{ backgroundImage: `url(${bg})`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
+        <section className="mb-20 w-full" id="A_propos" style={{ backgroundImage: `url(${bg})`, backgroundPosition: 'center', backgroundSize: 'cover' }}>
           <div className="p-12 text-center ">
             <h1 className="text-4xl  font-poppins text-black">
               Plus qu’un cocktail, une <strong>expérience</strong>
