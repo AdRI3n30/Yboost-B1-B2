@@ -83,7 +83,7 @@ const CocktailFusion: React.FC = () => {
       <div className="w-full flex justify-center items-center">
         <img
           className="rounded-[55px] shadow-lg h-[650px] object-cover"
-          src={cocktail.Image || cocktailPlaceholder}
+          src={`/image_cock/${cocktail.Image}`}
           alt={cocktail.Name}
         />
       </div>

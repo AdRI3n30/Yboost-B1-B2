@@ -86,27 +86,27 @@ const CocktailList: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 200 }}
             >
-              <Link
-                to={`/cocktails/${cocktail.Id}`}
-                className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 text-black"
-              >
-                <div className="w-[200px] aspect-[1/1] overflow-hidden">
-                  <img
-                    src={cocktail.Image}
-                    alt={cocktail.Name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-5">
-                  <h2 className="text-xl font-bold mb-1">{cocktail.Name}</h2>
-                  <p className="text-sm text-gray-600 mb-1">
-                    Difficulté : {cocktail.Id_difficulte}
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Temps : {cocktail.Temps} min
-                  </p>
-                </div>
-              </Link>
+          <div
+          className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 text-white bg-contain bg-center bg-no-repeat"
+          style={{ backgroundImage: `url(/image_cock/${cocktail.Image})`, minHeight: "250px" }}
+          >
+          {/* Couche semi-transparente pour améliorer la lisibilité */}
+          <div className="absolute inset-0 bg-black/40"></div>
+
+          <Link to={`/cocktails/${cocktail.Id}`} className="relative z-10 block h-full">
+            <div className="p-5 h-full flex flex-col justify-end">
+              <h2 className="text-xl font-bold mb-1">{cocktail.Name}</h2>
+              <p className="text-sm text-gray-200 mb-1">
+                Difficulté : {cocktail.Id_difficulte}
+              </p>
+              <p className="text-sm text-gray-200">
+                Temps : {cocktail.Temps} min
+              </p>
+            </div>
+          </Link>
+          </div>
+
+
             </motion.div>
           ))}
         </motion.div>
