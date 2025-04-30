@@ -12,20 +12,20 @@ import Apropos from './pages/Apropos.tsx';
 
 const App = () => {
   return (
-<div className='p-6 w-full relative'>
-    <Router >
-          <NavigationBarWeb />
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/list" element={<List />} />
-        <Route path="/cocktails/:id" element={<Cocktail />} />
-        <Route path="/preparation" element={<Preparation/>} />
-        <Route path="/apropos" element={<Apropos/>} />
-        <Route path="/liste_cocktail" element={<Liste_cocktail/>} />
-      </Routes>
-    </Router>
-    </div>
+<div className={window.location.pathname === '/' ? '' : 'p-6 w-full relative'}>
+  <Router>
+    {window.location.pathname !== '/' && <NavigationBarWeb />}
+    <Routes>
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/home" element={<Home />} />
+      <Route path="/list" element={<List />} />
+      <Route path="/cocktails/:id" element={<Cocktail />} />
+      <Route path="/preparation" element={<Preparation />} />
+      <Route path="/apropos" element={<Apropos />} />
+      <Route path="/liste_cocktail" element={<Liste_cocktail />} />
+    </Routes>
+  </Router>
+</div>
   );
 };
 
