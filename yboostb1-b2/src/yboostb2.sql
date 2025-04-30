@@ -196,16 +196,8 @@ INSERT INTO `recette` (`Cocktail_Id`, `Ingredient_Id`, `Quantity`) VALUES
 (13, 27, '1 trait'), (13, 28, '1.25 cl'), (13, 29, '1.25 cl'), 
 (13, 30, '1.5 cl'), (13, 25, '5 g');
 
-
---
--- Contraintes pour les tables déchargées
---
-
---
--- Contraintes pour la table `cocktail`
---
-ALTER TABLE `cocktail`
-  ADD CONSTRAINT `cocktail_ibfk_1` FOREIGN KEY (`Id_difficulte`) REFERENCES `difficulte` (`Id_difficulte`) ON DELETE SET NULL;
+(153, 13, 25, '5 g');
+fficulte` (`Id_difficulte`) ON DELETE SET NULL;
 
 --
 -- Contraintes pour la table `recette`

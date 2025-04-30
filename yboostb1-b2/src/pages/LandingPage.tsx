@@ -1,5 +1,6 @@
 import React from 'react';
 import Navigation_barre from '../Composant/Navigation_barre.tsx';
+import Caroussel from '../Composant/Caroussel.tsx'; // Importation du composant Caroussel
 
 const LandingPage = () => {
   return (
@@ -33,6 +34,7 @@ const LandingPage = () => {
           </div>
         </div>
       </div>
+      <Caroussel />
     </div>
   );
 };
