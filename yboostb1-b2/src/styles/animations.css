@@ -1,0 +1,85 @@
+/* Bubble animations */
+.bubble {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    border-radius: 50%;
+    animation: float-up 10s ease-in-out infinite;
+    backdrop-filter: blur(4px);
+    z-index: 1;
+  }
+  
+  /* Particle animations */
+  .particle {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    background: radial-gradient(circle at center, rgba(245, 158, 11, 0.3), rgba(245, 158, 11, 0));
+    border-radius: 50%;
+    pointer-events: none;
+    animation: particle-float 15s linear infinite;
+  }
+  
+  @keyframes particle-float {
+    0% {
+      transform: translate(0, 0) rotate(0deg);
+      opacity: 0;
+    }
+    10% {
+      opacity: 1;
+    }
+    90% {
+      opacity: 1;
+    }
+    100% {
+      transform: translate(var(--tx), var(--ty)) rotate(360deg);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes float-up {
+    0% {
+      transform: translateY(100vh) scale(0);
+      opacity: 0;
+    }
+    20% {
+      opacity: 0.5;
+    }
+    80% {
+      opacity: 0.3;
+    }
+    100% {
+      transform: translateY(-100px) scale(2);
+      opacity: 0;
+    }
+  }
+  
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+  
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  /* Bottle shape */
+  .bottle-shape {
+    width: 100%;
+    height: 100%;
+    background-image: 
+      radial-gradient(
+        ellipse at 50% 100%, 
+        rgba(255, 255, 255, 0.05) 0%, 
+        rgba(255, 255, 255, 0) 70%
+      );
+    mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M40,0 L60,0 L60,40 Q80,50 80,80 L80,180 Q80,200 60,200 L40,200 Q20,200 20,180 L20,80 Q20,50 40,40 Z' fill='%23000'/%3E%3C/svg%3E");
+    mask-size: contain;
+    mask-repeat: no-repeat;
+    mask-position: center;
+  }
