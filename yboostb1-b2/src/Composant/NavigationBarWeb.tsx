@@ -1,10 +1,17 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useMemo } from "react";
 import LogoC from '../image/cocktails_icon.png';
 import back from '../Public/Fond3.png';
 
 const NavigationBarWeb: React.FC = () => {
     const location = useLocation();
+
+    const randomId = useMemo(() => {
+        const minId = 1;
+        const maxId = 20; // adapte selon ta base
+        return Math.floor(Math.random() * (maxId - minId + 1)) + minId;
+      }, []);
 
     const isActive = (path: string) => location.pathname === path;
 
@@ -53,20 +60,20 @@ const NavigationBarWeb: React.FC = () => {
                         </button>
                     </Link>
 
-                    <Link to="/preparation">
+                    <Link to={`/cocktails/${randomId}`}>
                         <button
                             className={`w-[65px] h-full rounded-full border border-white flex items-center justify-center group transition-all duration-300 ${
-                                isActive("/preparation") 
-                                    ? "bg-white text-black" 
-                                    : "bg-transparent text-white hover:bg-white hover:text-black"
+                            isActive("/cocktail") 
+                                ? "bg-white text-black" 
+                                : "bg-transparent text-white hover:bg-white hover:text-black"
                             }`}
                         >
                             <img
-                                src={LogoC}
-                                alt="Cocktails Icon"
-                                className={`w-6 ml-[2px] h-6 transition-all duration-300 ${
-                                    isActive("/preparation") ? "invert" : "group-hover:invert"
-                                }`}
+                            src={LogoC}
+                            alt="Cocktails Icon"
+                            className={`w-6 ml-[2px] h-6 transition-all duration-300 ${
+                                isActive("/cocktail") ? "invert" : "group-hover:invert"
+                            }`}
                             />
                         </button>
                     </Link>

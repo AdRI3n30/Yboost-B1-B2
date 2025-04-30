@@ -1,5 +1,9 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
+import cocktailPlaceholder from "../image/cocktail2.jpg";
+import shakerimg from "../image/shaker-a-cocktail_1.png";
+import solarimg from "../image/solar_hourglass-broken.png";
+import solarstarimg from "../image/solar_stars-broken.png";
 import Ndt from "../Composant/ndt.tsx";
 
 interface Ingredient {
@@ -11,14 +15,14 @@ interface Ingredient {
 interface CocktailType {
   Id: number;
   Name: string;
-  Description: string;  
+  Description: string;
   Difficulte: string;
   Image: string | null;
   Temps: number | null;
   Ingredients: Ingredient[];
 }
 
-const Cocktail: React.FC = () => {
+const CocktailFusion: React.FC = () => {
   const { id } = useParams<{ id: string }>();
   const [cocktail, setCocktail] = useState<CocktailType | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -29,52 +33,39 @@ const Cocktail: React.FC = () => {
     const fetchCocktail = async () => {
       try {
         const response = await fetch(`http://localhost:5000/cocktails/${id}`);
-        if (!response.ok) {
-          throw new Error("Erreur lors de la récupération des données");
-        }
+        if (!response.ok) throw new Error("Erreur de chargement.");
         const data = await response.json();
         setCocktail(data);
-      } catch (err: any) {
-        console.error("Erreur:", err);
+      } catch (err) {
+        console.error(err);
         setError("Impossible de récupérer les informations du cocktail.");
       }
     };
-
     fetchCocktail();
   }, [id]);
 
   useEffect(() => {
-    const handleOutsideClick = (event: MouseEvent) => {
+    const handleClickOutside = (event: MouseEvent) => {
       if (isVisible && shakeDivRef.current && !shakeDivRef.current.contains(event.target as Node)) {
         setIsVisible(false);
       }
     };
-
-    document.addEventListener("mousedown", handleOutsideClick);
-    return () => {
-      document.removeEventListener("mousedown", handleOutsideClick);
-    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isVisible]);
 
-  if (error) {
-    return <div className="text-red-500 text-center mt-10">{error}</div>;
-  }
-
-  if (!cocktail) {
-    return <div className="text-white text-center mt-10">Chargement...</div>;
-  }
-
-  const handleClick = () => {
+  const handleShakeClick = () => {
     setIsVisible(true);
-    const element = document.getElementById("shakeDiv");
-    element?.classList.add("shake");
-    setTimeout(() => {
-      element?.classList.remove("shake");
-    }, 1000);
+    const el = document.getElementById("shakeDiv");
+    el?.classList.add("shake");
+    setTimeout(() => el?.classList.remove("shake"), 1000);
   };
 
+  if (error) return <div className="text-red-500 text-center mt-10">{error}</div>;
+  if (!cocktail) return <div className="text-center mt-10">Chargement...</div>;
+
   return (
-    <div className="bg-black min-h-screen text-gray-300 flex flex-col items-center pt-6 relative">
+    <div className="flex p-10 justify-center items-center min-h-screen relative font-poppins">
       <style>
         {`
           @keyframes shake {
@@ -89,61 +80,55 @@ const Cocktail: React.FC = () => {
         `}
       </style>
 
-      <h1 className="text-4xl font-bold text-green-400 mb-4">
-        {cocktail.Name} 
-      </h1>
-
-      <img
-        src={cocktail.Image || "/default-cocktail.jpg"}
-        alt={cocktail.Name}
-        className="w-64 h-64 object-cover rounded-lg shadow-lg mb-4"
-      />
-
-      <Ndt
-        name={cocktail.Name}
-        difficulty={cocktail.Difficulte}
-        time={cocktail.Temps || 0}
-      />
-
-      <div className="flex flex-column w-screen h-auto justify-center" onClick={handleClick}>
-        <div className="bg-gradient-to-r from-green-600 via-amber-300 to-green-600 w-36 h-16 flex rounded-full mt-8 justify-center items-center cursor-pointer">
-          <h1 className="text-2xl font-bold text-white">Shake !</h1>
-        </div>
+      <div className="w-full flex justify-center items-center">
+        <img
+          className="rounded-[55px] shadow-lg h-[650px] object-cover"
+          src={cocktail.Image || cocktailPlaceholder}
+          alt={cocktail.Name}
+        />
       </div>
 
-      {isVisible && (
-        <div
-          id="shakeDiv"
-          ref={shakeDivRef}
-          className="bg-gradient-to-br from-slate-500 to-emerald-300 w-full h-auto absolute bottom-0 flex flex-col p-6 text-white text-xl rounded-t-lg transition-transform"
-        >
-          <div className="flex justify-between">
-            <h1 className="font-bold">Nom : {cocktail.Name}</h1>
-            <h1 className="font-bold">Difficulté : {cocktail.Difficulte}</h1>
+      <div className="w-full pl-10">
+        <div className="mb-10">
+          <h1 className="font-instrument italic font-medium text-[80px]">{cocktail.Name}</h1>
+          <p className="w-4/5 mt-[-15px] font-light">{cocktail.Description || "Aucune description."}</p>
+        </div>
+
+        <div className="mb-[50px] shadow-custom-inset-2 p-8 rounded-3xl w-[60%] bg-white/10">
+          <ul className="list-disc pl-6">
+            {cocktail.Ingredients.map((ingredient) => (
+              <li key={ingredient.Ingredient_Id} className="font-light pb-[15px]">
+                {ingredient.Quantity} - {ingredient.Name}
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="flex justify-around items-center w-full pr-[200px]">
+          <div className="flex items-center gap-2">
+            <div className="rounded-xl shadow-custom-inset p-2 w-[60px] h-[60px] flex justify-center items-center">
+              <img src={solarimg} alt="Temps" />
+            </div>
+            <span>{cocktail.Temps ? `${cocktail.Temps} min` : "Non spécifié"}</span>
           </div>
 
-          <div className="mt-4">
-            <h1 className="font-bold">Temps : {cocktail.Temps ? `${cocktail.Temps} minutes` : "Non spécifié"}</h1>
+          <div className="flex items-center gap-2">
+            <div className="rounded-xl shadow-custom-inset p-2 w-[60px] h-[60px]">
+              <img src={solarstarimg} alt="Note" />
+            </div>
+            <span>Note</span>
           </div>
 
-          <div className="mt-4">
-            <p className="font-bold">Description : {cocktail.Description || "Aucune description disponible"}</p>
-          </div>
-
-          <div className="mt-4">
-            <h1 className="font-bold">Ingrédients :</h1>
-            <ul className="list-disc pl-6">
-              {cocktail.Ingredients.map((ingredient) => (
-                <li key={ingredient.Ingredient_Id} className="text-lg">
-                  {ingredient.Quantity} - {ingredient.Name}
-                </li>
-              ))}
-            </ul>
+          <div className="flex items-center gap-2">
+            <div className="rounded-xl shadow-custom-inset p-2 w-[60px] h-[60px] flex justify-center items-center">
+              <img className="h-[35px]" src={shakerimg} alt="Difficulté" />
+            </div>
+            <span>{cocktail.Difficulte}</span>
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };
 
-export default Cocktail;
+export default CocktailFusion;

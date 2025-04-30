@@ -3,7 +3,7 @@ import FondH from "../Public/Fond3.png";
 import fleche from "../Public/weui_arrow-outlined.png";
 import cock from "../Public/cock.jpeg";
 import bg from "../Public/bg.png";
-import NavigationBarWeb from "../Composant/NavigationBarWeb.tsx";
+import Caroussel from '../Composant/Caroussel.tsx';
 
 const Home = () => {
   return (
@@ -87,6 +87,7 @@ const Home = () => {
             <div className="w-1/2 sm:w-1/3 h-[2px] bg-black mt-4 mx-auto"></div>
           </div>
         </section>
+        <Caroussel />
     </>    
   );
 };

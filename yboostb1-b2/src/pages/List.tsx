@@ -1,23 +1,12 @@
 import React, { useState, useEffect } from "react";
-import NavigationBarWeb from "../Composant/NavigationBarWeb";
-import Items_cocktails from "../Composant/Items_cocktails.tsx";
+import CocktailList from '../Composant/tasks.tsx'
 
  const List = () => {
   return (
-    <div className="mt-32 flex justify-center items-center ">
-    <div className=" grid grid-rows-3 grid-cols-3 gap-[10vh] justify-center items-center">
-      <Items_cocktails />
-      <Items_cocktails />
-      <Items_cocktails />
-      <Items_cocktails />
-      <Items_cocktails />
-      <Items_cocktails />
-      <Items_cocktails />
-      <Items_cocktails />
-      <Items_cocktails />
-      <Items_cocktails />
+    <div className="mt-16 px-6 py-4 w-full">
+        <CocktailList />
     </div>
-    </div>
+
   );
  } ;
 

@@ -40,39 +40,41 @@ const CocktailList: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-black text-white p-4">
-      <h1 className="text-4xl font-bold text-center text-green-400 mb-8">
-        Shake <span className="text-blue-300">LAB</span>
-      </h1>
+    <div className="min-h-screen text-white px-6 py-10">
       {loading ? (
         <p className="text-center text-lg">Chargement des cocktails...</p>
       ) : error ? (
         <div className="text-center text-red-500">{error}</div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-8">
           {cocktails.map((cocktail) => (
             <Link
               key={cocktail.Id}
               to={`/cocktails/${cocktail.Id}`}
-              className="relative bg-gray-800 rounded-lg overflow-hidden shadow-[0_0_9px_rgba(0,0,0,0.2)]"
+              className="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 text-black"
             >
-              <div className="relative">
+              <div className="w-[200px] aspect-[1/1] overflow-hidden">
                 <img
                   src={cocktail.Image}
                   alt={cocktail.Name}
-                  className="w-full h-32 object-cover"
+                  className="w-full h-full object-cover"
                 />
               </div>
-              <div className="p-2">
-                <h2 className="text-white text-sm font-semibold">{cocktail.Name}</h2>
-                <p className="text-gray-400 text-xs">{cocktail.Id_difficulte}</p>
-                <p className="text-gray-400 text-xs">{cocktail.Temps} min</p>
+              <div className="p-5">
+                <h2 className="text-xl font-bold mb-1">{cocktail.Name}</h2>
+                <p className="text-sm text-gray-600 mb-1">
+                  Difficulté : {cocktail.Id_difficulte}
+                </p>
+                <p className="text-sm text-gray-600">
+                  Temps : {cocktail.Temps} min
+                </p>
               </div>
             </Link>
           ))}
         </div>
       )}
     </div>
+
   );
 };
 
