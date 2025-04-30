@@ -22,7 +22,7 @@ const NavigationBarWeb: React.FC = () => {
             initial={{ y: -100, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8 }}
-            className={`absolute top-[1.5rem] w-[96.7vw] h-20 p-2 flex items-center justify-between z-50 rounded-[25px] bg-cover ${(isActive("/home") || isActive("/apropos")) ? "bg-transparent" : ""}`}
+            className={`absolute top-[1.5rem] w-11/12 h-20 p-2 left-14 flex items-center justify-between z-50 rounded-[25px] bg-cover ${(isActive("/home") || isActive("/apropos")) ? "bg-transparent" : ""}`}
             style={!(isActive("/home") || isActive("/apropos")) ? { backgroundImage: `url(${back})` } : {}}
         >
             {/* Desktop Navigation */}

@@ -41,6 +41,7 @@ const CocktailList: React.FC = () => {
   }, []);
 
   return (
+    <div className="flex justify-center items-center">
     <motion.div
       className="min-h-screen text-white px-6 py-10"
       initial={{ opacity: 0 }}
@@ -65,7 +66,7 @@ const CocktailList: React.FC = () => {
         </motion.div>
       ) : (
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-8"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-12"
           initial="hidden"
           animate="visible"
           variants={{
@@ -86,15 +87,16 @@ const CocktailList: React.FC = () => {
               whileHover={{ scale: 1.05 }}
               transition={{ type: "spring", stiffness: 200 }}
             >
-          <div
-          className="relative rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 text-white bg-contain bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(/image_cock/${cocktail.Image})`, minHeight: "250px" }}
-          >
-          {/* Couche semi-transparente pour améliorer la lisibilité */}
-          <div className="absolute inset-0 bg-black/40"></div>
+<div
+  className="flex items-end w-[350px] h-[350px] bg-cover bg-center rounded-[20px] text-end text-white bg-[0%_70%] shadow-xl"
+  style={{
+    backgroundImage: `url(/image_cock/${cocktail.Image})`,
+    boxShadow: "inset 0px -100px 46px -24px rgba(0,0,0,0.63)"
+  }}
+>
 
-          <Link to={`/cocktails/${cocktail.Id}`} className="relative z-10 block h-full">
-            <div className="p-5 h-full flex flex-col justify-end">
+          <Link to={`/cocktails/${cocktail.Id}`} className="relative z-10 block w-full h-full">
+            <div className="p-5 h-full flex flex-col justify-end text-start">
               <h2 className="text-xl font-bold mb-1">{cocktail.Name}</h2>
               <p className="text-sm text-gray-200 mb-1">
                 Difficulté : {cocktail.Id_difficulte}
@@ -112,6 +114,7 @@ const CocktailList: React.FC = () => {
         </motion.div>
       )}
     </motion.div>
+    </div>
   );
 };
 

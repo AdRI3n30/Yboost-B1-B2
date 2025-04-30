@@ -80,9 +80,9 @@ const CocktailFusion: React.FC = () => {
         `}
       </style>
 
-      <div className="w-full flex justify-center items-center">
+      <div className="mt-32 w-full flex justify-center items-center">
         <img
-          className="rounded-[55px] shadow-lg h-[650px] object-cover"
+          className="rounded-[55px] shadow-lg max-h-[650px]  object-cover"
           src={`/image_cock/${cocktail.Image}`}
           alt={cocktail.Name}
         />
@@ -94,7 +94,7 @@ const CocktailFusion: React.FC = () => {
           <p className="w-4/5 mt-[-15px] font-light">{cocktail.Description || "Aucune description."}</p>
         </div>
 
-        <div className="mb-[50px] shadow-custom-inset-2 p-8 rounded-3xl w-[60%] bg-white/10">
+        <div className="mb-[50px] shadow-custom-inset-2 p-8 rounded-3xl max-h-[220px] w-[60%] bg-white/10 overflow-y-auto ">
           <ul className="list-disc pl-6">
             {cocktail.Ingredients.map((ingredient) => (
               <li key={ingredient.Ingredient_Id} className="font-light pb-[15px]">
