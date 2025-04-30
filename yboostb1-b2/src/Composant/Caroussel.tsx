@@ -1,52 +1,83 @@
 import React, { useState, useEffect, useRef } from "react";
-import Items_cocktails from "./Items_cocktails.tsx"; // adapte le chemin si nécessaire
+
+interface Cocktail {
+  Id: number;
+  Name: string;
+  Descri: string;
+  Id_difficulte: string;
+  Image: string;
+  Ingredients: string;
+  Temps: string;
+}
 
 const Carousel = () => {
-  // Nombre de composants à afficher dans le carrousel
-  const totalItems = 6;
-
+  const [cocktails, setCocktails] = useState<Cocktail[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const containerRef = useRef(null);
-  const timeoutRef = useRef(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const groupSize = 3;
 
-  const getCircularIndex = (index) => {
-    return (index + totalItems) % totalItems;
-  };
+  useEffect(() => {
+    const fetchCocktails = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/cocktails");
+        const data = await response.json();
+        setCocktails(data.slice(0, 6)); // max 6 cocktails
+      } catch (error) {
+        console.error("Erreur fetch cocktails", error);
+      }
+    };
+
+    fetchCocktails();
+  }, []);
 
   const next = () => {
-    setCurrentIndex((prev) => getCircularIndex(prev + 1));
+    setCurrentIndex((prev) =>
+      (prev + groupSize) % cocktails.length
+    );
   };
 
   useEffect(() => {
     timeoutRef.current = setTimeout(() => {
       next();
     }, 4000);
+    return () => timeoutRef.current && clearTimeout(timeoutRef.current);
+  }, [currentIndex, cocktails]);
 
-    return () => clearTimeout(timeoutRef.current);
-  }, [currentIndex]);
-
-  const visibleItems = [
-    getCircularIndex(currentIndex),
-    getCircularIndex(currentIndex + 1),
-    getCircularIndex(currentIndex + 2),
-  ];
+  const cardWidth = 300;
+  const gap = 40; // from gap-10 (2.5rem)
+  const slideStep = cardWidth + gap;
+  const visibleWidth = groupSize * cardWidth + (groupSize - 1) * gap;
 
   return (
-    <div className="w-full h-[500px] bg-black flex items-center justify-center overflow-hidden relative">
+    <div className="overflow-hidden relative mx-auto" style={{ width: `${visibleWidth}px`, height: '500px' }}>
       <div
-        ref={containerRef}
-        className="flex transition-transform duration-700 ease-in-out"
+        className="flex gap-10 transition-transform duration-700 ease-in-out"
         style={{
-          transform: "translateX(0%)",
-          width: "1000px",
+          width: `${cocktails.length * slideStep}px`,
+          transform: `translateX(-${currentIndex * slideStep}px)`,
         }}
       >
-        {visibleItems.map((idx) => (
+        {cocktails.map((cocktail) => (
           <div
-            key={idx}
-            className="w-[300px] h-[400px] mx-6 flex-shrink-0 flex items-center justify-center"
+            key={cocktail.Id}
+            className="w-[300px] h-[400px] flex-shrink-0 flex items-center justify-center"
           >
-            <Items_cocktails />
+            <div
+              className="flex items-end w-[300px] h-[400px] bg-cover bg-center rounded-[20px] text-end text-white shadow-xl"
+              style={{
+                backgroundImage: `url(/image_cock/${cocktail.Image})`,
+                boxShadow: "inset 0px -100px 46px -24px rgba(0,0,0,0.63)",
+              }}
+            >
+              <a
+                href={`/cocktails/${cocktail.Id}`}
+                className="relative z-10 block w-full h-full"
+              >
+                <div className="p-5 h-full flex flex-col justify-end text-start">
+                  <h2 className="text-xl font-bold mb-1">{cocktail.Name}</h2>
+                </div>
+              </a>
+            </div>
           </div>
         ))}
       </div>
