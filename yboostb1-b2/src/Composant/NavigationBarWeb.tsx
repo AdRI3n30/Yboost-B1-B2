@@ -89,4 +89,4 @@ const NavigationBarWeb: React.FC<NavigationBarWebProps> = ({
     );
 };
 
-export default NavigationBarWeb;
+export default NavigationBarWeb; 
