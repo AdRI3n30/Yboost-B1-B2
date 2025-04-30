@@ -45,7 +45,7 @@ const Home = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => (window.location.href = "/list")}
-          className="absolute bottom-[2%] right-[1.5%] bg-white text-black w-[290px] h-[60px] rounded-[200px] shadow-md hover:bg-gray-200 transition duration-300 border-2 border-black text-sm sm:text-xl"
+          className="absolute bottom-[2%] right-[1.5%] bg-white text-black w-[290px] h-[60px] rounded-[200px] shadow-md hover:bg-gray-200 transition duration-300 border-2 border-black text-sm sm:text-xl sm:left-[8%] font-poppins"
         >
           Explorer les recettes
         </motion.button>
