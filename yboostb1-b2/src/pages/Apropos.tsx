@@ -1,7 +1,7 @@
 import React from 'react';
 import { Glasses as GlassCocktail, MapPin } from 'lucide-react';
 import { motion } from 'framer-motion';
-import fond from '../Public/Fond3.png';
+import fond from '../assets/Fond3.png';
 
 function Apropos() {
   return (

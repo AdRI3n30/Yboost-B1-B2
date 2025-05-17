@@ -10,7 +10,7 @@ interface Cocktail {
     Ingredients: string;
     Temps: string;
   }
-const cocktailimg = require("../image/cocktail2.jpg");
+import cocktailimg from "../assets/cocktail2.jpg";
 
 
 const Items_cocktails = () => {

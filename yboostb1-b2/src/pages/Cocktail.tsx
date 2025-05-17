@@ -1,10 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams } from "react-router-dom";
-import cocktailPlaceholder from "../image/cocktail2.jpg";
-import shakerimg from "../image/shaker-a-cocktail_1.png";
-import solarimg from "../image/solar_hourglass-broken.png";
-import solarstarimg from "../image/solar_stars-broken.png";
-import Ndt from "../Composant/ndt.tsx";
+import shakerimg from "../assets/shaker-a-cocktail_1.png";
+import solarimg from "../assets/solar_hourglass-broken.png";
+import solarstarimg from "../assets/solar_stars-broken.png";
 
 interface Ingredient {
   Ingredient_Id: number;
@@ -54,12 +52,6 @@ const CocktailFusion: React.FC = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [isVisible]);
 
-  const handleShakeClick = () => {
-    setIsVisible(true);
-    const el = document.getElementById("shakeDiv");
-    el?.classList.add("shake");
-    setTimeout(() => el?.classList.remove("shake"), 1000);
-  };
 
   if (error) return <div className="text-red-500 text-center mt-10">{error}</div>;
   if (!cocktail) return <div className="text-center mt-10">Chargement...</div>;
