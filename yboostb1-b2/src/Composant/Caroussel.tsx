@@ -13,7 +13,7 @@ interface Cocktail {
 const Carousel = () => {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const groupSize = 3;
 
   useEffect(() => {
@@ -40,7 +40,11 @@ const Carousel = () => {
     timeoutRef.current = setTimeout(() => {
       next();
     }, 4000);
-    return () => timeoutRef.current && clearTimeout(timeoutRef.current);
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
   }, [currentIndex, cocktails]);
 
   const cardWidth = 300;

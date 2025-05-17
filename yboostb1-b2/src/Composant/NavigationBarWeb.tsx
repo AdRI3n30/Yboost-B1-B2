@@ -1,16 +1,24 @@
 import React, { useState, useMemo } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import LogoC from '../assets/cocktails_icon.png';
 import back from '../assets/Fond3.png';
 
 const NavigationBarWeb: React.FC = () => {
     const location = useLocation();
+    const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-    const randomId = useMemo(() => Math.floor(Math.random() * 20) + 1, []);
+    const randomId = useMemo(() => Math.floor(Math.random() * 13) + 1, []);
 
     const isActive = (path: string) => location.pathname === path;
+
+    // Fonction pour naviguer vers un cocktail random
+    const handleRandomCocktail = () => {
+        const randomId = Math.floor(Math.random() * 13) + 1;
+        navigate(`/cocktails/${randomId}`);
+        setIsMenuOpen(false); // ferme le menu mobile si besoin
+    };
 
     return (
         <>
@@ -76,27 +84,24 @@ const NavigationBarWeb: React.FC = () => {
                                 A propos
                             </motion.button>
                         </Link>
-                        <Link to={`/cocktails/${randomId}`}>
-                            <motion.button
-                                whileHover={{ rotate: 10, scale: 1.1 }}
-                                whileTap={{ scale: 0.95 }}
-                                className={`w-[45px] md:w-[65px] h-full rounded-full border border-white flex items-center justify-center group transition-all duration-300 ${
-                                    isActive("/cocktail")
-                                        ? "bg-white text-black"
-                                        : "bg-transparent text-white hover:bg-white hover:text-black"
+                        <button
+                            onClick={handleRandomCocktail}
+                            className={`w-[45px] md:w-[65px] h-full rounded-full border border-white flex items-center justify-center group transition-all duration-300 ${
+                                location.pathname.startsWith("/cocktails/")
+                                    ? "bg-white text-black"
+                                    : "bg-transparent text-white hover:bg-white hover:text-black"
+                            }`}
+                        >
+                            <motion.img
+                                src={LogoC}
+                                alt="Cocktails Icon"
+                                className={`w-5 md:w-6 ml-[2px] h-5 md:h-6 transition-all duration-300 ${
+                                    location.pathname.startsWith("/cocktails/") ? "invert" : "group-hover:invert"
                                 }`}
-                            >
-                                <motion.img
-                                    src={LogoC}
-                                    alt="Cocktails Icon"
-                                    className={`w-5 md:w-6 ml-[2px] h-5 md:h-6 transition-all duration-300 ${
-                                        isActive("/cocktail") ? "invert" : "group-hover:invert"
-                                    }`}
-                                    whileHover={{ rotate: 360 }}
-                                    transition={{ duration: 0.8 }}
-                                />
-                            </motion.button>
-                        </Link>
+                                whileHover={{ rotate: 360 }}
+                                transition={{ duration: 0.8 }}
+                            />
+                        </button>
                     </div>
                 </div>
 
@@ -146,9 +151,12 @@ const NavigationBarWeb: React.FC = () => {
                         <Link to="/apropos" onClick={() => setIsMenuOpen(false)}>
                             <div className="text-white text-2xl py-4 font-poppins">A propos</div>
                         </Link>
-                        <Link to={`/cocktails/${randomId}`} onClick={() => setIsMenuOpen(false)}>
-                            <div className="text-white text-2xl py-4 font-poppins">Random Cocktail</div>
-                        </Link>
+                        <button
+                            onClick={handleRandomCocktail}
+                            className="text-white text-2xl py-4 font-poppins"
+                        >
+                            Random Cocktail
+                        </button>
                     </div>
                 </motion.div>
             )}
