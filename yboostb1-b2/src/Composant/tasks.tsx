@@ -66,7 +66,7 @@ const CocktailList: React.FC = () => {
         </motion.div>
       ) : (
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-12"
+          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 sm:gap-8 md:gap-12"
           initial="hidden"
           animate="visible"
           variants={{
@@ -87,28 +87,27 @@ const CocktailList: React.FC = () => {
                 }}
                 whileHover={{ scale: 1.05 }}
                 transition={{ type: "spring", stiffness: 200 }}
+                className="min-w-0 flex justify-center"
               >
                 <div
-                  className="flex items-end w-[350px] h-[350px] bg-cover rounded-[20px] text-end text-white bg-[0%_70%] shadow-xl"
+                  className="flex items-end w-full max-w-xs sm:max-w-sm md:max-w-md aspect-square bg-cover rounded-[20px] text-end text-white bg-[0%_70%] shadow-xl"
                   style={{
                     backgroundImage: `url(/image_cock/${cocktail.Image})`,
                     boxShadow: "inset 0px -100px 46px -24px rgba(0,0,0,0.63)"
                   }}
                 >
                   <Link to={`/cocktails/${cocktail.Id}`} className="relative z-10 block w-full h-full">
-                    <div className="p-5 h-full flex flex-col justify-end text-start">
-                      <h2 className="text-xl font-bold mb-1">{cocktail.Name}</h2>
-                      <p className="text-sm text-gray-200 mb-1">
+                    <div className="p-4 sm:p-5 h-full flex flex-col justify-end text-start">
+                      <h2 className="text-lg sm:text-xl font-bold mb-1">{cocktail.Name}</h2>
+                      <p className="text-xs sm:text-sm text-gray-200 mb-1">
                         Difficulté : {cocktail.Id_difficulte}
                       </p>
-                      <p className="text-sm text-gray-200">
+                      <p className="text-xs sm:text-sm text-gray-200">
                         Temps : {cocktail.Temps} min
                       </p>
                     </div>
                   </Link>
                 </div>
-
-
               </motion.div>
             );
           })}
