@@ -77,40 +77,41 @@ const CocktailList: React.FC = () => {
             },
           }}
         >
-          {cocktails.map((cocktail) => (
-            <motion.div
-              key={cocktail.Id}
-              variants={{
-                hidden: { opacity: 0, y: 30 },
-                visible: { opacity: 1, y: 0 },
-              }}
-              whileHover={{ scale: 1.05 }}
-              transition={{ type: "spring", stiffness: 200 }}
-            >
-<div
-  className="flex items-end w-[350px] h-[350px] bg-cover bg-center rounded-[20px] text-end text-white bg-[0%_70%] shadow-xl"
-  style={{
-    backgroundImage: `url(/image_cock/${cocktail.Image})`,
-    boxShadow: "inset 0px -100px 46px -24px rgba(0,0,0,0.63)"
-  }}
->
+          {cocktails.map((cocktail) => {
+            return (
+              <motion.div
+                key={cocktail.Id}
+                variants={{
+                  hidden: { opacity: 0, y: 30 },
+                  visible: { opacity: 1, y: 0 },
+                }}
+                whileHover={{ scale: 1.05 }}
+                transition={{ type: "spring", stiffness: 200 }}
+              >
+                <div
+                  className="flex items-end w-[350px] h-[350px] bg-cover rounded-[20px] text-end text-white bg-[0%_70%] shadow-xl"
+                  style={{
+                    backgroundImage: `url(/image_cock/${cocktail.Image})`,
+                    boxShadow: "inset 0px -100px 46px -24px rgba(0,0,0,0.63)"
+                  }}
+                >
+                  <Link to={`/cocktails/${cocktail.Id}`} className="relative z-10 block w-full h-full">
+                    <div className="p-5 h-full flex flex-col justify-end text-start">
+                      <h2 className="text-xl font-bold mb-1">{cocktail.Name}</h2>
+                      <p className="text-sm text-gray-200 mb-1">
+                        Difficulté : {cocktail.Id_difficulte}
+                      </p>
+                      <p className="text-sm text-gray-200">
+                        Temps : {cocktail.Temps} min
+                      </p>
+                    </div>
+                  </Link>
+                </div>
 
-          <Link to={`/cocktails/${cocktail.Id}`} className="relative z-10 block w-full h-full">
-            <div className="p-5 h-full flex flex-col justify-end text-start">
-              <h2 className="text-xl font-bold mb-1">{cocktail.Name}</h2>
-              <p className="text-sm text-gray-200 mb-1">
-                Difficulté : {cocktail.Id_difficulte}
-              </p>
-              <p className="text-sm text-gray-200">
-                Temps : {cocktail.Temps} min
-              </p>
-            </div>
-          </Link>
-          </div>
 
-
-            </motion.div>
-          ))}
+              </motion.div>
+            );
+          })}
         </motion.div>
       )}
     </motion.div>
