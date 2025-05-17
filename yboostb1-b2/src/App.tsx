@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';
 import Home from './pages/Home.tsx';
 import List from './pages/List.tsx';
 import Cocktail from './pages/Cocktail.tsx';
@@ -17,14 +17,12 @@ const App = () => {
       <Route path="/home" element={<Home />} />
       <Route path="/list" element={<List />} />
       <Route path="/cocktails/:id" element={<Cocktail />} />
-      {/* <Route path="/preparation" element={<Preparation />} /> */}
       <Route path="/apropos" element={<Apropos />} />
-      {/* <Route path="/liste_cocktail" element={<Liste_cocktail />} /> */}
+      <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
   </Router>
 </div>
   );
 };
-
 
 export default App;
