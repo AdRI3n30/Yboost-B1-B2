@@ -9,7 +9,7 @@ import Apropos from './pages/Apropos.tsx';
 
 const App = () => {
   return (
-<div className={window.location.pathname === '/' ? '' : 'p-6 w-full relative'}>
+<div className={window.location.pathname === '/' ? '' : 'p-4 w-full relative'}>
   <Router>
     {window.location.pathname !== '/' && <NavigationBarWeb />}
     <Routes>

@@ -13,7 +13,7 @@ const Home = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1 }}
-          className="w-full bg-cover bg-center relative rounded-[25px] shadow-lg min-h-[320px] md:min-h-[500px]"
+          className="w-full bg-cover bg-center relative rounded-[25px] shadow-lg min-h-[400px] sm:min-h-[500px] lg:min-h-[650px] xl:min-h-[750px] max-w-none"
           style={{ backgroundImage: `url(${FondH})` }}
         >
           <div className="w-[20px] h-[20px] md:w-[25px] md:h-[25px] absolute bg-red-0 bottom-0 right-[10vw] md:right-[305px] rounded-full shadow-[8.5px_9px_0_#fff]"></div>
@@ -23,10 +23,10 @@ const Home = () => {
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ delay: 0.3, duration: 0.8 }}
-            className="absolute top-[30%] left-4 md:left-8 text-left text-white max-w-[90vw] md:max-w-xl"
+            className="absolute top-[28%] left-4 md:left-12 text-left text-white max-w-[95vw] md:max-w-2xl lg:max-w-3xl"
           >
-            <h1 className="text-xl sm:text-3xl md:text-6xl font-poppins mb-4">ShakeLabs</h1>
-            <p className="text-xs sm:text-lg md:text-xl font-poppins font-light max-w-xs sm:max-w-xl">
+            <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-poppins mb-6">ShakeLabs</h1>
+            <p className="text-sm sm:text-lg md:text-2xl lg:text-3xl font-poppins font-light max-w-lg sm:max-w-2xl lg:max-w-3xl">
               Bienvenue dans l’univers des cocktails où chaque recette <br />
               raconte une histoire et chaque gorgée éveille les sens
             </p>
@@ -44,7 +44,7 @@ const Home = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => (window.location.href = "/list")}
-          className="absolute bottom-[2%] right-[2%] bg-white text-black w-[80vw] max-w-[290px] h-[50px] md:w-[290px] md:h-[60px] rounded-[200px] shadow-md hover:bg-gray-200 transition duration-300 border-2 border-black text-xs sm:text-xl font-poppins"
+          className="absolute bottom-[2%] left-1/2  md:left-auto md:right-[2%] bg-white text-black w-[80vw] max-w-[290px] h-[50px] md:w-[290px] md:h-[60px] rounded-[200px] shadow-md hover:bg-gray-200 transition duration-300 border-2 border-black text-xs sm:text-xl font-poppins"
         >
           Explorer les recettes
         </motion.button>
@@ -57,7 +57,7 @@ const Home = () => {
               section.scrollIntoView({ behavior: "smooth" });
             }
           }}
-          className="absolute bg-center bg-contain w-[48px] h-[48px] md:w-[64px] md:h-[64px] bottom-[12%] md:bottom-[10%] left-[5%] rounded-[50%] border border-white border-2"
+          className="absolute bg-center bg-contain w-[48px] h-[48px] md:w-[64px] md:h-[64px] bottom-[18%] md:bottom-[10%] left-[5%] rounded-[50%] border border-white border-2"
         >
           <img src={fleche} alt="fleche" />
         </motion.button>
