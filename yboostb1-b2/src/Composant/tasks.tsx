@@ -66,7 +66,7 @@ const CocktailList: React.FC = () => {
         </motion.div>
       ) : (
         <motion.div
-          className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-3 gap-6 sm:gap-8 md:gap-12"
+          className="grid grid-cols-1 md:grid-cols-1 lg:grid-cols-2 2xl:grid-cols-2 gap-10 xl:gap-16"
           initial="hidden"
           animate="visible"
           variants={{
@@ -90,10 +90,10 @@ const CocktailList: React.FC = () => {
                 className="min-w-0 flex justify-center"
               >
                 <div
-                  className="flex items-end w-full max-w-xs sm:max-w-sm md:max-w-md aspect-square bg-cover rounded-[20px] text-end text-white bg-[0%_70%] shadow-xl"
+                  className="flex items-end w-full aspect-square bg-cover rounded-[32px] text-end text-white bg-[0%_70%] shadow-2xl"
                   style={{
                     backgroundImage: `url(/image_cock/${cocktail.Image})`,
-                    boxShadow: "inset 0px -100px 46px -24px rgba(0,0,0,0.63)"
+                    boxShadow: "inset 0px -120px 56px -24px rgba(0,0,0,0.63)"
                   }}
                 >
                   <Link to={`/cocktails/${cocktail.Id}`} className="relative z-10 block w-full h-full">

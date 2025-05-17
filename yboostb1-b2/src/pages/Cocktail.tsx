@@ -72,7 +72,7 @@ const CocktailFusion: React.FC = () => {
       </style>
 
       {/* Image cocktail */}
-      <div className="mt-8 md:mt-32 w-full flex justify-center items-center">
+      <div className="mt-8 md:mt-32 w-full flex justify-center items-center p-2">
         <img
           className="rounded-[30px] md:rounded-[55px] shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-lg max-h-[350px] md:max-h-[650px] object-cover"
           src={`/image_cock/${cocktail.Image}`}
@@ -84,7 +84,7 @@ const CocktailFusion: React.FC = () => {
       <div className="w-full md:pl-10 mt-8 md:mt-0 flex flex-col">
         <div className="mb-6 md:mb-10">
           <h1 className="font-instrument italic font-medium text-3xl sm:text-5xl md:text-[80px] break-words">{cocktail.Name}</h1>
-          <p className="w-full md:w-4/5 mt-2 md:mt-[-15px] font-light text-base sm:text-lg">{cocktail.Description || "Aucune description."}</p>
+          <p className="w-full md:w-4/5 mt-2 md:mt-[-15px] font-light text-base sm:text-lg pt-6">{cocktail.Description || "Aucune description."}</p>
         </div>
 
         <div className="mb-8 md:mb-[50px] shadow-custom-inset-2 p-4 sm:p-6 md:p-8 rounded-3xl max-h-[180px] md:max-h-[220px] w-full md:w-[60%] bg-white/10 overflow-y-auto">
