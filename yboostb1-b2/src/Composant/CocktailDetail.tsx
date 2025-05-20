@@ -115,14 +115,6 @@ const CocktailFusion: React.FC = () => {
                   {cocktail.Temps ? `${cocktail.Temps} min` : "Non spécifié"}
                 </span>
               </div>
-
-              <div className="flex items-center gap-2">
-                <div className="rounded-xl shadow-custom-inset p-2 w-12 h-12 md:w-[60px] md:h-[60px] flex justify-center items-center">
-                  <img src={solarstarimg} alt="Note du cocktail" className="w-6 h-6 md:w-auto md:h-auto" />
-                </div>
-                <span className="text-sm sm:text-base">Note</span>
-              </div>
-
               <div className="flex items-center gap-2">
                 <div className="rounded-xl shadow-custom-inset p-2 w-12 h-12 md:w-[60px] md:h-[60px] flex justify-center items-center">
                   <img className="h-6 md:h-[35px]" src={shakerimg} alt="Difficulté" />
