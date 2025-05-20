@@ -16,6 +16,7 @@ const CocktailList: React.FC = () => {
   const [cocktails, setCocktails] = useState<Cocktail[]>([]);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
   useEffect(() => {
     const fetchCocktails = async () => {
@@ -38,9 +39,28 @@ const CocktailList: React.FC = () => {
     fetchCocktails();
   }, []);
 
+  const filteredCocktails = cocktails.filter((cocktail) =>
+    cocktail.Name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="flex justify-center items-center w-full">
-      <motion.div className="min-h-screen text-white px-2 sm:px-6 py-8 max-w-screen-2xl w-full" initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5 }}>
+      <motion.div
+        className="min-h-screen text-white px-2 sm:px-6 py-8 max-w-screen-2xl w-full"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+      >
+        <div className="flex justify-center mb-6">
+          <input
+            type="text"
+            placeholder="Rechercher un cocktail..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="px-4 py-2 rounded-lg border border-gray-300 text-black w-full max-w-md shadow"
+          />
+        </div>
+
         {loading ? (
           <motion.p className="text-center text-lg" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
             Chargement des cocktails...
@@ -56,7 +76,7 @@ const CocktailList: React.FC = () => {
             animate="visible"
             variants={{ visible: { transition: { staggerChildren: 0.15 } } }}
           >
-            {cocktails.map((cocktail) => (
+            {filteredCocktails.map((cocktail) => (
               <motion.div
                 key={cocktail.Id}
                 variants={{ hidden: { opacity: 0, y: 30 }, visible: { opacity: 1, y: 0 } }}
@@ -65,7 +85,7 @@ const CocktailList: React.FC = () => {
                 className="min-w-0 flex justify-center"
               >
                 <div
-                  className="flex items-end w-full max-w-xs aspect-square bg-cover rounded-[24px] text-end text-white bg-[0%_70%] shadow-2xl"
+                  className="flex items-end w-full max-w-md aspect-[4/5] bg-cover rounded-[32px] text-end text-white bg-[0%_70%] shadow-2xl"
                   style={{
                     backgroundImage: `url(/image_cock/${cocktail.Image})`,
                     boxShadow: "inset 0px -100px 46px -24px rgba(0,0,0,0.63)"
