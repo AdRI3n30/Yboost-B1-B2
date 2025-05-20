@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState} from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import LogoC from '../assets/cocktails_icon.png';
@@ -8,8 +8,6 @@ const NavigationBarWeb: React.FC = () => {
     const location = useLocation();
     const navigate = useNavigate();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
-
-    const randomId = useMemo(() => Math.floor(Math.random() * 13) + 1, []);
 
     const isActive = (path: string) => location.pathname === path;
 

@@ -51,7 +51,7 @@ const LandingPage: React.FC = () => {
       </div>
 
       {/* Glass Bottle Silhouette */}
-      <div className="absolute right-0 bottom-0 opacity-10 w-1/2 h-3/4">
+      <div className="absolute right-0 bottom-0 opacity-10 w-1/2 h-3/4 pointer-events-none">
         <div className="bottle-shape" />
       </div>
 
@@ -61,7 +61,7 @@ const LandingPage: React.FC = () => {
           <GlassCheers className="mx-auto h-14 w-14 sm:h-20 sm:w-20 text-amber-500 mb-6 animate-float" />
         </div>
 
-        <h1 className="text-white text-4xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
+        <h1 className="text-white text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
           <span className={`block overflow-hidden transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '200ms' }}>
             Shake
           </span>
@@ -70,7 +70,7 @@ const LandingPage: React.FC = () => {
           </span>
         </h1>
 
-        <div className={`mt-6 sm:mt-8 max-w-lg text-zinc-300 text-lg sm:text-xl transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
+        <div className={`mt-6 sm:mt-8 max-w-xs sm:max-w-lg text-zinc-300 text-base sm:text-xl transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
           <p className="leading-relaxed">
             L'art de la mixologie rencontre l'innovation.
             <br />Préparez-vous à vivre une expérience sensorielle unique.
@@ -82,7 +82,7 @@ const LandingPage: React.FC = () => {
             onMouseEnter={() => setHover(true)}
             onMouseLeave={() => setHover(false)}
             onClick={() => window.location.href = '/home'}
-            className={`relative group bg-amber-600 hover:bg-amber-500 text-white font-medium py-3 px-8 sm:py-4 sm:px-10 rounded-full transition-all duration-300 overflow-hidden shadow-lg ${hover ? 'pr-12' : 'pr-8'}`}
+            className={`relative group bg-amber-600 hover:bg-amber-500 text-white font-medium py-3 px-8 sm:py-4 sm:px-10 rounded-full transition-all duration-300 overflow-hidden shadow-lg ${hover ? 'pr-12' : 'pr-8'} text-base sm:text-lg`}
           >
             <span className="relative z-10">
               Découvrir l'expérience
@@ -95,15 +95,15 @@ const LandingPage: React.FC = () => {
         </div>
 
         <div className={`mt-16 sm:mt-20 transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '1000ms' }}>
-          <p className="text-zinc-500 text-sm sm:text-base">
+          <p className="text-zinc-500 text-xs sm:text-base">
             © 2025 ShakeLabs. Tous droits réservés.
           </p>
         </div>
       </div>
 
       {/* Decorative Corners */}
-      <div className="absolute top-0 left-0 w-16 h-16 sm:w-24 sm:h-24 border-l-2 border-t-2 border-amber-700/30 rounded-tl-md" />
-      <div className="absolute bottom-0 right-0 w-16 h-16 sm:w-24 sm:h-24 border-r-2 border-b-2 border-amber-700/30 rounded-br-md" />
+      <div className="absolute top-0 left-0 w-12 h-12 sm:w-24 sm:h-24 border-l-2 border-t-2 border-amber-700/30 rounded-tl-md" />
+      <div className="absolute bottom-0 right-0 w-12 h-12 sm:w-24 sm:h-24 border-r-2 border-b-2 border-amber-700/30 rounded-br-md" />
     </div>
   );
 };

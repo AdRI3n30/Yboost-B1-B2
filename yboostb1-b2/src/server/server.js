@@ -58,8 +58,6 @@ app.get('/cocktails/:id', (req, res) => {
         if (results.length === 0) {
             return res.status(404).json({ error: 'Cocktail non trouvé' });
         }
-
-        // Regrouper les résultats pour structurer la réponse JSON
         const cocktail = {
             Id: results[0].Id,
             Name: results[0].Name,
@@ -86,7 +84,6 @@ app.post('/cocktails', (req, res) => {
         return res.status(400).json({ error: 'Le nom, la description, la difficulté, et les ingrédients sont requis' });
     }
 
-    // Assurez-vous que ingredients soit bien une chaîne au format JSON ou une structure compatible
     const ingredientsString = JSON.stringify(ingredients);
 
     db.query(
