@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node -e \"const https = require\\('https'\\); console.log\\('https built-in available'\\);\")",
+      "Bash(node -e \"const { VERSION } = require\\('node:process'\\); console.log\\(VERSION\\);\")",
+      "Bash(node -e \"import\\('node-fetch'\\).then\\(m => console.log\\(m.default\\)\\).catch\\(e => console.log\\('no esm node-fetch'\\)\\);\")",
+      "Bash(node -e \"try { require\\('node-fetch'\\); console.log\\('cjs ok'\\); } catch\\(e\\) { console.log\\('not installed:', e.code\\); }\")",
+      "Bash(npm audit *)",
+      "Bash(npm install *)"
+    ]
+  }
+}

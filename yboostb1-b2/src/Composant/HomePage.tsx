@@ -1,73 +1,77 @@
-import { motion } from "framer-motion";
-import FondH from "../assets/Fond3.png";
-import fleche from "../assets/weui_arrow-outlined.png";
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowDown, ChevronRight } from 'lucide-react';
+import FondH from '../assets/Fond3.png';
 
-const HomeHero = () => {
+const HomeHero: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
-    <>
-      <main role="main">
-        <section
-          className="relative flex flex-col md:flex-row justify-center w-full h-[90vh] md:h-screen mb-12"
-          aria-label="Présentation ShakeLabs"
+    <section className="relative h-screen min-h-[600px] overflow-hidden" aria-label="Présentation ShakeLabs">
+      {/* Background image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${FondH})` }}
+      />
+      {/* Gradient overlays */}
+      <div className="absolute inset-0 bg-gradient-to-t from-zinc-950 via-zinc-950/30 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-r from-zinc-950/60 to-transparent" />
+
+      {/* Content */}
+      <div className="relative z-10 h-full flex flex-col justify-end pb-20 px-6 sm:px-10 lg:px-16 max-w-7xl mx-auto w-full">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.9, ease: 'easeOut' }}
+          className="max-w-2xl"
         >
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1 }}
-            className="w-full bg-cover bg-center relative rounded-[25px] shadow-lg min-h-[400px] sm:min-h-[500px] lg:min-h-[650px] xl:min-h-[750px] max-w-none"
-            style={{ backgroundImage: `url(${FondH})` }}
-            aria-hidden="true"
-          >
+          <p className="text-amber-400 font-poppins text-sm font-medium tracking-widest uppercase mb-4">
+            Bienvenue sur ShakeLabs
+          </p>
+          <h1 className="font-poppins font-extrabold text-4xl sm:text-6xl lg:text-7xl text-white leading-tight mb-6">
+            L'art du cocktail,{' '}
+            <span className="text-amber-400">réinventé.</span>
+          </h1>
+          <p className="font-poppins font-light text-zinc-300 text-lg sm:text-xl leading-relaxed mb-10 max-w-xl">
+            Des classiques revisités aux créations originales — chaque recette raconte une histoire.
+          </p>
 
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.8 }}
-              className="absolute top-[28%] left-4 md:left-12 text-left text-white max-w-[95vw] md:max-w-2xl lg:max-w-3xl"
-            >
-              <h1 className="text-2xl sm:text-4xl md:text-6xl lg:text-7xl font-poppins mb-6">
-                ShakeLabs
-              </h1>
-              <p className="text-sm sm:text-lg md:text-2xl lg:text-3xl font-poppins font-light max-w-lg sm:max-w-2xl lg:max-w-3xl">
-                Bienvenue dans l’univers des cocktails où chaque recette <br />
-                raconte une histoire et chaque gorgée éveille les sens
-              </p>
-            </motion.div>
-          </motion.div>
-
-          <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ delay: 0.6, duration: 0.5 }}
-            aria-hidden="true"
-          ></motion.div>
-
+          <div className="flex flex-wrap gap-4">
             <motion.button
-              whileHover={typeof window !== "undefined" && window.innerWidth >= 768 ? { scale: 1.05 } : {}}
-              whileTap={{ scale: 0.95 }}
-              onClick={() => (window.location.href = "/list")}
-              className="absolute bottom-[2%] left-1/2 -translate-x-1/2 md:left-auto md:right-[2%] md:translate-x-0 bg-white text-black w-[80vw] max-w-[290px] h-[50px] md:w-[290px] md:h-[60px] rounded-[200px] shadow-md hover:bg-gray-200 transition duration-300 border-2 border-black text-xs sm:text-xl font-poppins"
-              aria-label="Explorer les recettes"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => navigate('/list')}
+              className="flex items-center gap-2 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-poppins font-semibold px-7 py-3.5 rounded-full transition-all duration-200 shadow-lg shadow-amber-500/20"
             >
               Explorer les recettes
+              <ChevronRight size={18} />
             </motion.button>
 
             <motion.button
-            whileHover={{ rotate: 15 }}
-            onClick={() => {
-              const section = document.querySelector("#A_propos");
-              if (section) {
-              section.scrollIntoView({ behavior: "smooth" });
-              }
-            }}
-            className="absolute bg-center bg-contain w-[48px] h-[48px] md:w-[64px] md:h-[64px] bottom-[24%] md:bottom-[10%] left-[5%] rounded-[50%] border border-white border-2"
-            aria-label="Aller à la section À propos"
+              whileHover={{ scale: 1.03 }}
+              whileTap={{ scale: 0.97 }}
+              onClick={() => document.querySelector('#mission')?.scrollIntoView({ behavior: 'smooth' })}
+              className="flex items-center gap-2 bg-zinc-800/60 hover:bg-zinc-700/60 backdrop-blur-sm text-white font-poppins font-medium px-7 py-3.5 rounded-full border border-zinc-700/60 transition-all duration-200"
             >
-            <img src={fleche} alt="Aller à la section À propos" />
+              Notre mission
+              <ArrowDown size={16} />
             </motion.button>
-        </section>
-      </main>
-    </>
+          </div>
+        </motion.div>
+      </div>
+
+      {/* Scroll indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2 }}
+        className="absolute bottom-8 right-8 sm:right-12 flex flex-col items-center gap-2 text-zinc-500"
+      >
+        <div className="w-px h-12 bg-gradient-to-b from-transparent to-zinc-500 mx-auto" />
+        <span className="text-xs font-poppins tracking-widest rotate-90 mt-1">SCROLL</span>
+      </motion.div>
+    </section>
   );
 };
 

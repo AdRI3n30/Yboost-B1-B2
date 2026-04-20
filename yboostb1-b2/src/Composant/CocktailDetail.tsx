@@ -1,128 +1,179 @@
-import React, { useState, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
-import shakerimg from "../assets/shaker-a-cocktail_1.png";
-import solarimg from "../assets/solar_hourglass-broken.png";
-import solarstarimg from "../assets/solar_stars-broken.png";
+import React, { useState, useEffect } from 'react';
+import { useParams, useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowLeft, Clock, ChefHat } from 'lucide-react';
+import { CocktailDetail as CocktailDetailType } from '../types';
 
-interface Ingredient {
-  Ingredient_Id: number;
-  Name: string;
-  Quantity: string;
-}
+const DIFFICULTY_STYLE: Record<string, string> = {
+  Facile: 'text-emerald-400 bg-emerald-400/10 border-emerald-400/20',
+  Moyenne: 'text-amber-400 bg-amber-400/10 border-amber-400/20',
+  Difficile: 'text-rose-400 bg-rose-400/10 border-rose-400/20',
+};
 
-interface CocktailType {
-  Id: number;
-  Name: string;
-  Description: string;
-  Difficulte: string;
-  Image: string | null;
-  Temps: number | null;
-  Ingredients: Ingredient[];
-}
+const DetailSkeleton = () => (
+  <div className="min-h-screen bg-zinc-950 px-6 sm:px-10 lg:px-16 pt-24 pb-16 animate-pulse">
+    <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-12 items-start">
+      <div className="rounded-3xl bg-zinc-800 aspect-[3/4]" />
+      <div className="space-y-6 pt-4">
+        <div className="h-12 bg-zinc-800 rounded-xl w-3/4" />
+        <div className="h-4 bg-zinc-800 rounded w-full" />
+        <div className="h-4 bg-zinc-800 rounded w-5/6" />
+        <div className="h-48 bg-zinc-800 rounded-2xl" />
+      </div>
+    </div>
+  </div>
+);
 
 const CocktailFusion: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const [cocktail, setCocktail] = useState<CocktailType | null>(null);
+  const navigate = useNavigate();
+  const [cocktail, setCocktail] = useState<CocktailDetailType | null>(null);
   const [error, setError] = useState<string | null>(null);
-  const [isVisible, setIsVisible] = useState(false);
-  const shakeDivRef = useRef<HTMLDivElement>(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchCocktail = async () => {
-      try {
-        const response = await fetch(`http://localhost:5000/cocktails/${id}`);
-        if (!response.ok) throw new Error("Erreur de chargement.");
-        const data = await response.json();
-        setCocktail(data);
-      } catch (err) {
-        console.error(err);
-        setError("Impossible de récupérer les informations du cocktail.");
-      }
-    };
-    fetchCocktail();
+    setLoading(true);
+    setError(null);
+    fetch(`/cocktails/${id}`)
+      .then(r => {
+        if (!r.ok) throw new Error('Erreur de chargement.');
+        return r.json();
+      })
+      .then(data => setCocktail(data))
+      .catch(() => setError('Impossible de charger ce cocktail.'))
+      .finally(() => setLoading(false));
   }, [id]);
 
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (isVisible && shakeDivRef.current && !shakeDivRef.current.contains(event.target as Node)) {
-        setIsVisible(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, [isVisible]);
+  if (loading) return <DetailSkeleton />;
 
-  if (error) return <div className="text-red-500 text-center mt-10" role="alert">{error}</div>;
-  if (!cocktail) return <div className="text-center mt-10" role="status">Chargement...</div>;
+  if (error) return (
+    <div className="min-h-screen bg-zinc-950 flex flex-col items-center justify-center gap-4">
+      <p className="text-rose-400 font-poppins">{error}</p>
+      <button onClick={() => navigate(-1)} className="text-amber-400 font-poppins text-sm underline">
+        Retour
+      </button>
+    </div>
+  );
+
+  if (!cocktail) return null;
+
+  const difficultyStyle = DIFFICULTY_STYLE[cocktail.Difficulte] ?? 'text-zinc-400 bg-zinc-800 border-zinc-700';
 
   return (
-    <main role="main" aria-label={`Détail du cocktail ${cocktail.Name}`}>
-      <div className="flex flex-col md:flex-row p-2 md:p-10 justify-center items-center min-h-screen relative font-poppins">
-        <style>
-          {`
-            @keyframes shake {
-              0%, 100% { transform: translateX(0); }
-              25% { transform: translateX(-10px); }
-              50% { transform: translateX(10px); }
-              75% { transform: translateX(-10px); }
-            }
-            .shake {
-              animation: shake 1s ease-in-out;
-            }
-          `}
-        </style>
+    <main className="min-h-screen bg-zinc-950 px-6 sm:px-10 lg:px-16 pt-20 pb-16" aria-label={`Détail du cocktail ${cocktail.Name}`}>
+      <div className="max-w-6xl mx-auto">
 
-        {/* Image cocktail */}
-        <div className="mt-8 md:mt-32 w-full flex justify-center items-center p-2">
-          <img
-            className="rounded-[30px] md:rounded-[55px] shadow-lg w-full max-w-xs sm:max-w-sm md:max-w-lg max-h-[350px] md:max-h-[650px] object-cover"
-            src={`/image_cock/${cocktail.Image}`}
-            alt={`Cocktail ${cocktail.Name}`}
-          />
-        </div>
+        {/* Back button */}
+        <motion.button
+          initial={{ opacity: 0, x: -10 }}
+          animate={{ opacity: 1, x: 0 }}
+          onClick={() => navigate(-1)}
+          className="flex items-center gap-2 text-zinc-400 hover:text-white font-poppins text-sm mb-10 transition-colors duration-200 group"
+        >
+          <ArrowLeft size={16} className="group-hover:-translate-x-1 transition-transform duration-200" />
+          Retour
+        </motion.button>
 
-        {/* Infos cocktail */}
-        <div className="w-full md:pl-10 mt-8 md:mt-0 flex flex-col">
-          <header>
-            <h1 className="font-instrument italic font-medium text-3xl sm:text-5xl md:text-[80px] break-words">
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
+
+          {/* Image */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7 }}
+            className="relative rounded-3xl overflow-hidden aspect-[3/4] bg-zinc-800 sticky top-24"
+          >
+            {cocktail.Image ? (
+              <img
+                src={cocktail.Image}
+                alt={cocktail.Name}
+                className="w-full h-full object-cover"
+              />
+            ) : (
+              <div className="w-full h-full bg-zinc-800" />
+            )}
+            <div className="absolute inset-0 bg-gradient-to-t from-zinc-950/40 to-transparent" />
+          </motion.div>
+
+          {/* Info */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="flex flex-col gap-6 pt-2"
+          >
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2">
+              <span className={`text-xs font-poppins font-medium px-3 py-1 rounded-full border ${difficultyStyle}`}>
+                {cocktail.Difficulte}
+              </span>
+              {cocktail.Temps && (
+                <span className="flex items-center gap-1 text-xs font-poppins font-medium px-3 py-1 rounded-full border text-zinc-400 bg-zinc-800 border-zinc-700">
+                  <Clock size={11} />
+                  {cocktail.Temps} min
+                </span>
+              )}
+            </div>
+
+            {/* Name */}
+            <h1 className="font-instrument italic text-5xl sm:text-6xl lg:text-7xl text-white leading-none">
               {cocktail.Name}
             </h1>
-          </header>
-          <p className="w-full md:w-4/5 mt-2 md:mt-[-15px] font-light text-base sm:text-lg pt-6">
-            {cocktail.Description || "Aucune description."}
-          </p>
 
-          <section aria-labelledby="ingredients-title">
-            <h2 id="ingredients-title" className="sr-only">Ingrédients</h2>
-            <div className="mb-8 md:mb-[50px] shadow-custom-inset-2 p-4 sm:p-6 md:p-8 rounded-3xl max-h-[180px] md:max-h-[220px] w-full md:w-[60%] bg-white/10 overflow-y-auto">
-              <ul className="list-disc pl-6">
-                {cocktail.Ingredients.map((ingredient) => (
-                  <li key={ingredient.Ingredient_Id} className="font-light pb-2 sm:pb-[15px] text-sm sm:text-base">
-                    {ingredient.Quantity} - {ingredient.Name}
-                  </li>
+            {/* Description */}
+            {cocktail.Description && (
+              <p className="font-poppins font-light text-zinc-400 text-base leading-relaxed">
+                {cocktail.Description}
+              </p>
+            )}
+
+            {/* Divider */}
+            <div className="w-full h-px bg-zinc-800" />
+
+            {/* Ingredients */}
+            <div>
+              <div className="flex items-center gap-2 mb-4">
+                <ChefHat size={16} className="text-amber-400" />
+                <h2 className="font-poppins font-semibold text-white text-sm tracking-wide uppercase">
+                  Ingrédients
+                </h2>
+              </div>
+              <ul className="space-y-2">
+                {cocktail.Ingredients.map((ingredient, i) => (
+                  <motion.li
+                    key={ingredient.Id}
+                    initial={{ opacity: 0, x: -10 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.3 + i * 0.04 }}
+                    className="flex items-center justify-between py-2.5 border-b border-zinc-800/60 last:border-0"
+                  >
+                    <span className="font-poppins text-white text-sm">{ingredient.Name}</span>
+                    <span className="font-poppins font-medium text-amber-400 text-sm">{ingredient.Quantity}</span>
+                  </motion.li>
                 ))}
               </ul>
             </div>
-          </section>
 
-          <section aria-label="Informations complémentaires sur le cocktail">
-            <div className="flex flex-col sm:flex-row justify-between md:justify-around items-center w-full md:pr-[200px] gap-4 md:gap-0">
-              <div className="flex items-center gap-2">
-                <div className="rounded-xl shadow-custom-inset p-2 w-12 h-12 md:w-[60px] md:h-[60px] flex justify-center items-center">
-                  <img src={solarimg} alt="Temps de préparation" className="w-6 h-6 md:w-auto md:h-auto" />
+            {/* Bottom info */}
+            <div className="flex flex-wrap gap-4 pt-2">
+              <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3">
+                <ChefHat size={16} className="text-zinc-400" />
+                <div>
+                  <p className="text-zinc-500 font-poppins text-xs">Difficulté</p>
+                  <p className="text-white font-poppins font-medium text-sm">{cocktail.Difficulte}</p>
                 </div>
-                <span className="text-sm sm:text-base">
-                  {cocktail.Temps ? `${cocktail.Temps} min` : "Non spécifié"}
-                </span>
               </div>
-              <div className="flex items-center gap-2">
-                <div className="rounded-xl shadow-custom-inset p-2 w-12 h-12 md:w-[60px] md:h-[60px] flex justify-center items-center">
-                  <img className="h-6 md:h-[35px]" src={shakerimg} alt="Difficulté" />
+              <div className="flex items-center gap-2 bg-zinc-900 border border-zinc-800 rounded-xl px-4 py-3">
+                <Clock size={16} className="text-zinc-400" />
+                <div>
+                  <p className="text-zinc-500 font-poppins text-xs">Préparation</p>
+                  <p className="text-white font-poppins font-medium text-sm">
+                    {cocktail.Temps ? `${cocktail.Temps} min` : 'N/A'}
+                  </p>
                 </div>
-                <span className="text-sm sm:text-base">{cocktail.Difficulte}</span>
               </div>
             </div>
-          </section>
+          </motion.div>
         </div>
       </div>
     </main>

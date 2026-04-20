@@ -1,172 +1,140 @@
-
 const express = require('express');
-const bodyParser = require('body-parser');
-const mysql = require('mysql2');
 const cors = require('cors');
 
 const app = express();
 const port = 5000;
 
-app.use(bodyParser.json()); 
+app.use(express.json());
 app.use(cors());
 
+const BASE_URL = 'https://www.thecocktaildb.com/api/json/v1/1';
 
-const db = mysql.createConnection({
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'yboostb2'
-});
+async function fetchCocktailDB(path) {
+  const res = await fetch(`${BASE_URL}${path}`);
+  if (!res.ok) throw new Error(`CocktailDB error ${res.status} for ${path}`);
+  return res.json();
+}
 
-db.connect((err) => {
-    if (err) {
-        console.error('Erreur de connexion à MySQL:', err);
-        return;
-    }
-    console.log('Connecté à MySQL');
-});
+function computeDifficulte(count) {
+  if (count <= 4) return 'Facile';
+  if (count <= 7) return 'Moyenne';
+  return 'Difficile';
+}
 
-app.get('/cocktails', (req, res) => {
-    db.query('SELECT * FROM cocktail', (err, results) => {
-        if (err) {
-            return res.status(500).json({ error: 'Erreur lors de la récupération des cocktails' });
-        }
-        res.json(results);
+function extractIngredients(drink) {
+  const ingredients = [];
+  for (let i = 1; i <= 15; i++) {
+    const name = drink[`strIngredient${i}`];
+    if (!name || name.trim() === '') break;
+    ingredients.push({
+      Id: i,
+      Name: name.trim(),
+      Quantity: (drink[`strMeasure${i}`] || '').trim() || 'Q.S.',
     });
-});
+  }
+  return ingredients;
+}
 
-app.get('/cocktails/:id', (req, res) => {
-    const cocktailId = parseInt(req.params.id);
+function mapDrinkToList(drink) {
+  const ingredients = extractIngredients(drink);
+  return {
+    Id: parseInt(drink.idDrink, 10),
+    Name: drink.strDrink,
+    Descri: (drink.strInstructionsFR || drink.strInstructions || '').substring(0, 200),
+    Id_difficulte: computeDifficulte(ingredients.length),
+    Image: drink.strDrinkThumb || null,
+    Temps: null,
+  };
+}
 
-    const query = `
-        SELECT c.Id, c.Name, c.Descri, c.Id_difficulte, d.Difficulte, c.Image, c.Temps, 
-               i.Ingredient_Id, i.Name AS Ingredient, r.Quantity
-        FROM cocktail c
-        LEFT JOIN difficulte d ON c.Id_difficulte = d.Id_difficulte
-        LEFT JOIN recette r ON c.Id = r.Cocktail_Id
-        LEFT JOIN ingredient i ON r.Ingredient_Id = i.Ingredient_Id
-        WHERE c.Id = ?
-    `;
+function mapDrinkToDetail(drink) {
+  const ingredients = extractIngredients(drink);
+  return {
+    Id: parseInt(drink.idDrink, 10),
+    Name: drink.strDrink,
+    Description: drink.strInstructionsFR || drink.strInstructions || '',
+    Difficulte: computeDifficulte(ingredients.length),
+    Image: drink.strDrinkThumb || null,
+    Temps: null,
+    Ingredients: ingredients,
+  };
+}
 
-    db.query(query, [cocktailId], (err, results) => {
-        if (err) {
-            console.error('SQL Error:', err);
-            return res.status(500).json({ error: 'Erreur lors de la récupération du cocktail' });
-        }
-    
+const CACHE_TTL_MS = 60 * 60 * 1000;
+let cocktailsCache = null;
+let cacheTimestamp = 0;
 
-        if (results.length === 0) {
-            return res.status(404).json({ error: 'Cocktail non trouvé' });
-        }
-        const cocktail = {
-            Id: results[0].Id,
-            Name: results[0].Name,
-            Description: results[0].Descri,
-            Difficulte: results[0].Difficulte,
-            Image: results[0].Image,
-            Temps: results[0].Temps,
-            Ingredients: results.map(row => ({
-                Id: row.Ingredient_Id,
-                Name: row.Ingredient,
-                Quantity: row.Quantity
-            }))
-        };
+async function fetchAllCocktails() {
+  if (cocktailsCache && (Date.now() - cacheTimestamp) < CACHE_TTL_MS) return cocktailsCache;
 
-        res.json(cocktail);
-    });
-});
+  const letters = 'abcdefghijklmnopqrstuvwxyz'.split('');
+  const results = await Promise.all(
+    letters.map(l =>
+      fetchCocktailDB(`/search.php?f=${l}`)
+        .then(d => d.drinks || [])
+        .catch(() => [])
+    )
+  );
 
-
-app.post('/cocktails', (req, res) => {
-    const { name, description, difficulte, image, ingredients, temps } = req.body;
-
-    if (!name || !description || !difficulte || !ingredients) {
-        return res.status(400).json({ error: 'Le nom, la description, la difficulté, et les ingrédients sont requis' });
+  const seen = new Set();
+  const all = [];
+  for (const batch of results) {
+    for (const drink of batch) {
+      if (!seen.has(drink.idDrink)) {
+        seen.add(drink.idDrink);
+        all.push(mapDrinkToList(drink));
+      }
     }
+  }
 
-    const ingredientsString = JSON.stringify(ingredients);
+  all.sort((a, b) => a.Name.localeCompare(b.Name));
+  cocktailsCache = all;
+  cacheTimestamp = Date.now();
+  return all;
+}
 
-    db.query(
-        'INSERT INTO cocktail (Name, Description, Id_difficulte, Image, Ingredients, Temps) VALUES (?, ?, ?, ?, ?, ?)', 
-        [name, description, difficulte, image || null, ingredientsString, temps || null], 
-        (err, result) => {
-            if (err) {
-                res.status(500).json({ error: 'Erreur lors de l\'ajout du cocktail' });
-                return;
-            }
-
-            const newCocktail = {
-                Id: result.insertId,
-                Name: name,
-                Description: description,
-                Difficulte: difficulte,
-                Image: image,
-                Ingredients: ingredients,
-                Temps: temps
-            };
-
-            res.status(201).json({ message: 'Cocktail ajouté avec succès', cocktail: newCocktail });
-        }
-    );
+app.get('/cocktails', async (req, res) => {
+  try {
+    const cocktails = await fetchAllCocktails();
+    res.json(cocktails);
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la récupération des cocktails' });
+  }
 });
 
-
-
-app.put('/cocktail/:id', (req, res) => {
-    const cocktailId = parseInt(req.params.id);
-    const { name, description, difficulte, image, ingredients, temps } = req.body;
-
-    if (!name || !description || !difficulte || !ingredients) {
-        return res.status(400).json({ error: 'Le nom, la description, la difficulté, et les ingrédients sont requis' });
+// /random AVANT /:id pour éviter que "random" soit interprété comme un ID
+app.get('/cocktails/random', async (req, res) => {
+  try {
+    const data = await fetchCocktailDB('/random.php');
+    if (!data.drinks || data.drinks.length === 0) {
+      return res.status(404).json({ error: 'Aucun cocktail trouvé' });
     }
-
-    const ingredientsString = JSON.stringify(ingredients);
-
-    db.query(
-        'UPDATE cocktail SET Name = ?, Description = ?, Id_difficulte = ?, Image = ?, Ingredients = ?, Temps = ? WHERE Id = ?', 
-        [name, description, difficulte, image || null, ingredientsString, temps || null, cocktailId], 
-        (err, result) => {
-            if (err) {
-                res.status(500).json({ error: 'Erreur lors de la mise à jour du cocktail' });
-                return;
-            }
-
-            if (result.affectedRows > 0) {
-                res.json({ message: 'Cocktail mis à jour avec succès' });
-            } else {
-                res.status(404).json({ error: 'Cocktail non trouvé' });
-            }
-        }
-    );
+    res.json(mapDrinkToDetail(data.drinks[0]));
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la récupération du cocktail aléatoire' });
+  }
 });
 
-
-
-app.delete('/cocktail/:id', (req, res) => {
-    const cocktailId = parseInt(req.params.id);
-
-    db.query('DELETE FROM cocktail WHERE Id = ?', [cocktailId], (err, result) => {
-        if (err) {
-            res.status(500).json({ error: 'Erreur lors de la suppression du cocktail' });
-            return;
-        }
-
-        if (result.affectedRows > 0) {
-            res.json({ message: 'Cocktail supprimé avec succès' });
-        } else {
-            res.status(404).json({ error: 'Cocktail non trouvé' });
-        }
-    });
+app.get('/cocktails/:id', async (req, res) => {
+  const cocktailId = req.params.id;
+  if (!/^\d+$/.test(cocktailId)) {
+    return res.status(400).json({ error: 'ID invalide' });
+  }
+  try {
+    const data = await fetchCocktailDB(`/lookup.php?i=${cocktailId}`);
+    if (!data.drinks || data.drinks.length === 0) {
+      return res.status(404).json({ error: 'Cocktail non trouvé' });
+    }
+    res.json(mapDrinkToDetail(data.drinks[0]));
+  } catch (err) {
+    res.status(500).json({ error: 'Erreur lors de la récupération du cocktail' });
+  }
 });
-
-
-
 
 app.get('/', (req, res) => {
-    res.send('Serveur en cours d\'exécution et connecté à la base de données !');
+  res.send('Serveur en cours d\'exécution');
 });
 
-
 app.listen(port, () => {
-    console.log(`Serveur écoutant sur le port ${port}`);
+  console.log(`Serveur écoutant sur le port ${port}`);
 });

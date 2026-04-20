@@ -1,109 +1,114 @@
-import React, { useEffect, useState } from 'react';
-import { GlassWater as GlassCheers } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { motion } from 'framer-motion';
+import { ArrowRight, GlassWater } from 'lucide-react';
 import '../styles/animations.css';
 
 const LandingPage: React.FC = () => {
-  const [loaded, setLoaded] = useState(false);
-  const [hover, setHover] = useState(false);
-  const [particles, setParticles] = useState<Array<{ id: number; x: number; y: number; tx: number; ty: number }>>([]);
+  const navigate = useNavigate();
+  const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setLoaded(true);
-
-    const newParticles = Array.from({ length: 30 }, (_, i) => ({
-      id: i,
-      x: Math.random() * 100,
-      y: Math.random() * 100,
-      tx: (Math.random() - 0.5) * 200,
-      ty: (Math.random() - 0.5) * 200
-    }));
-    setParticles(newParticles);
+    const t = setTimeout(() => setMounted(true), 50);
+    return () => clearTimeout(t);
   }, []);
 
+  const bubbles = useMemo(
+    () =>
+      Array.from({ length: 12 }, (_, i) => ({
+        id: i,
+        left: 5 + Math.random() * 90,
+        delay: Math.random() * 6,
+        duration: 10 + Math.random() * 8,
+        size: 4 + Math.random() * 16,
+      })),
+    []
+  );
+
   return (
-    <div className="landing-container relative min-h-screen bg-gradient-to-br from-black via-zinc-900 to-amber-950 overflow-hidden">
-      {/* Background Elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        {[...Array(10)].map((_, i) => (
-          <div 
-            key={i}
-            className="bubble"
+    <div className="relative min-h-screen bg-zinc-950 overflow-hidden flex flex-col items-center justify-center">
+      {/* Ambient glow */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-amber-500/5 blur-3xl" />
+        <div className="absolute bottom-0 left-1/4 w-80 h-80 rounded-full bg-amber-800/10 blur-3xl" />
+      </div>
+
+      {/* Bubbles */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        {bubbles.map(b => (
+          <div
+            key={b.id}
+            className="absolute rounded-full border border-amber-500/10 bg-amber-500/5"
             style={{
-              left: `${Math.random() * 100}%`,
-              animationDelay: `${Math.random() * 5}s`,
-              animationDuration: `${8 + Math.random() * 10}s`
+              left: `${b.left}%`,
+              width: b.size,
+              height: b.size,
+              animationDelay: `${b.delay}s`,
+              animationDuration: `${b.duration}s`,
+              animation: `float-up ${b.duration}s ${b.delay}s ease-in-out infinite`,
             }}
           />
         ))}
-        {particles.map((particle) => (
-          <div
-            key={particle.id}
-            className="particle"
-            style={{
-              left: `${particle.x}%`,
-              top: `${particle.y}%`,
-              '--tx': `${particle.tx}px`,
-              '--ty': `${particle.ty}px`,
-              animationDelay: `${Math.random() * 5}s`
-            } as React.CSSProperties}
-          />
-        ))}
       </div>
 
-      {/* Glass Bottle Silhouette */}
-      <div className="absolute right-0 bottom-0 opacity-10 w-1/2 h-3/4 pointer-events-none">
-        <div className="bottle-shape" />
-      </div>
+      {/* Decorative corners */}
+      <div className="absolute top-6 left-6 w-16 h-16 border-l border-t border-amber-500/20 rounded-tl-xl" />
+      <div className="absolute bottom-6 right-6 w-16 h-16 border-r border-b border-amber-500/20 rounded-br-xl" />
 
       {/* Content */}
-      <div className="relative z-10 flex flex-col items-center justify-center min-h-screen px-4 sm:px-6 text-center">
-        <div className={`transform transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`}>
-          <GlassCheers className="mx-auto h-14 w-14 sm:h-20 sm:w-20 text-amber-500 mb-6 animate-float" />
-        </div>
+      <div className="relative z-10 flex flex-col items-center text-center px-6 max-w-xl">
+        <motion.div
+          initial={{ scale: 0.5, opacity: 0 }}
+          animate={mounted ? { scale: 1, opacity: 1 } : {}}
+          transition={{ duration: 0.6, ease: 'backOut' }}
+          className="w-16 h-16 rounded-2xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center mb-8"
+        >
+          <GlassWater className="w-8 h-8 text-amber-400" />
+        </motion.div>
 
-        <h1 className="text-white text-3xl sm:text-5xl md:text-6xl font-extrabold tracking-tight">
-          <span className={`block overflow-hidden transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '200ms' }}>
-            Shake
-          </span>
-          <span className={`block text-amber-500 overflow-hidden transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '400ms' }}>
-            Labs
-          </span>
-        </h1>
+        <motion.h1
+          initial={{ y: 20, opacity: 0 }}
+          animate={mounted ? { y: 0, opacity: 1 } : {}}
+          transition={{ delay: 0.15, duration: 0.7, ease: 'easeOut' }}
+          className="font-poppins font-extrabold tracking-tight text-5xl sm:text-7xl text-white mb-2"
+        >
+          Shake
+          <span className="text-amber-400">Labs</span>
+        </motion.h1>
 
-        <div className={`mt-6 sm:mt-8 max-w-xs sm:max-w-lg text-zinc-300 text-base sm:text-xl transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '600ms' }}>
-          <p className="leading-relaxed">
-            L'art de la mixologie rencontre l'innovation.
-            <br />Préparez-vous à vivre une expérience sensorielle unique.
-          </p>
-        </div>
+        <motion.p
+          initial={{ y: 20, opacity: 0 }}
+          animate={mounted ? { y: 0, opacity: 1 } : {}}
+          transition={{ delay: 0.3, duration: 0.7 }}
+          className="text-zinc-400 text-base sm:text-lg leading-relaxed mt-4 mb-10"
+        >
+          Explorez des centaines de recettes de cocktails.
+          <br className="hidden sm:block" />
+          De l'apéritif au digestif, trouvez l'inspiration.
+        </motion.p>
 
-        <div className={`mt-10 sm:mt-12 transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '800ms' }}>
-          <button
-            onMouseEnter={() => setHover(true)}
-            onMouseLeave={() => setHover(false)}
-            onClick={() => window.location.href = '/home'}
-            className={`relative group bg-amber-600 hover:bg-amber-500 text-white font-medium py-3 px-8 sm:py-4 sm:px-10 rounded-full transition-all duration-300 overflow-hidden shadow-lg ${hover ? 'pr-12' : 'pr-8'} text-base sm:text-lg`}
-          >
-            <span className="relative z-10">
-              Découvrir l'expérience
-            </span>
-            <span className={`absolute right-4 top-1/2 transform -translate-y-1/2 transition-all duration-300 ${hover ? 'translate-x-0 opacity-100' : 'translate-x-5 opacity-0'}`}>
-              →
-            </span>
-            <div className={`absolute inset-0 scale-x-0 group-hover:scale-x-100 origin-left transition-transform duration-500 bg-gradient-to-r from-transparent via-white/10 to-transparent`}></div>
-          </button>
-        </div>
+        <motion.button
+          initial={{ y: 20, opacity: 0 }}
+          animate={mounted ? { y: 0, opacity: 1 } : {}}
+          transition={{ delay: 0.45, duration: 0.7 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
+          onClick={() => navigate('/home')}
+          className="group flex items-center gap-3 bg-amber-500 hover:bg-amber-400 text-zinc-950 font-poppins font-semibold text-base px-8 py-4 rounded-full transition-all duration-200 shadow-lg shadow-amber-500/20"
+        >
+          Découvrir l'expérience
+          <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform duration-200" />
+        </motion.button>
 
-        <div className={`mt-16 sm:mt-20 transition-all duration-1000 ${loaded ? 'translate-y-0 opacity-100' : 'translate-y-10 opacity-0'}`} style={{ transitionDelay: '1000ms' }}>
-          <p className="text-zinc-500 text-xs sm:text-base">
-            © 2025 ShakeLabs. Tous droits réservés.
-          </p>
-        </div>
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={mounted ? { opacity: 1 } : {}}
+          transition={{ delay: 0.7 }}
+          className="text-zinc-600 text-xs mt-12"
+        >
+          © {new Date().getFullYear()} ShakeLabs. Tous droits réservés.
+        </motion.p>
       </div>
-
-      {/* Decorative Corners */}
-      <div className="absolute top-0 left-0 w-12 h-12 sm:w-24 sm:h-24 border-l-2 border-t-2 border-amber-700/30 rounded-tl-md" />
-      <div className="absolute bottom-0 right-0 w-12 h-12 sm:w-24 sm:h-24 border-r-2 border-b-2 border-amber-700/30 rounded-br-md" />
     </div>
   );
 };

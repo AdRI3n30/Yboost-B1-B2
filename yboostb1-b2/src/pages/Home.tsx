@@ -1,15 +1,15 @@
-import Hero from "../Composant/HomePage.tsx"
-import Pres from "../Composant/HomePres.tsx"
-import Caroussel from '../Composant/Caroussel.tsx';
+import Hero from '../Composant/HomePage';
+import Pres from '../Composant/HomePres';
+import Carousel from '../Composant/Caroussel';
+import Footer from '../Composant/footer';
 
-const Home = () => {
-  return (
-    <>
-      <Hero />
-      <Pres />
-      <Caroussel />
-    </>
-  );
-};
+const Home = () => (
+  <>
+    <Hero />
+    <Pres />
+    <Carousel />
+    <Footer />
+  </>
+);
 
 export default Home;

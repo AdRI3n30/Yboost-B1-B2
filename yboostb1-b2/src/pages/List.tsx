@@ -1,13 +1,11 @@
-import CocktailList from '../Composant/tasks.tsx'
+import CocktailList from '../Composant/tasks';
+import Footer from '../Composant/footer';
 
- const List = () => {
-  return (
-    <div className="mt-16 px-6 py-4 w-full">
-
-        <CocktailList />
-    </div>
-
-  );
- } ;
+const List = () => (
+  <>
+    <CocktailList />
+    <Footer />
+  </>
+);
 
 export default List;

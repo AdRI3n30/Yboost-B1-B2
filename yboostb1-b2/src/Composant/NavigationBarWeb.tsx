@@ -1,165 +1,152 @@
-import React, { useState} from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import { motion } from "framer-motion";
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Shuffle, X, Menu } from 'lucide-react';
 import LogoC from '../assets/cocktails_icon.png';
-import back from '../assets/Fond3.png';
+
+const NAV_LINKS = [
+  { to: '/home', label: 'Accueil' },
+  { to: '/list', label: 'Cocktails' },
+  { to: '/apropos', label: 'À propos' },
+];
 
 const NavigationBarWeb: React.FC = () => {
-    const location = useLocation();
-    const navigate = useNavigate();
-    const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [loadingRandom, setLoadingRandom] = useState(false);
 
-    const isActive = (path: string) => location.pathname === path;
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
+  }, []);
 
-    // Fonction pour naviguer vers un cocktail random
-    const handleRandomCocktail = () => {
-        const randomId = Math.floor(Math.random() * 13) + 1;
-        navigate(`/cocktails/${randomId}`);
-        setIsMenuOpen(false); // ferme le menu mobile si besoin
-    };
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
 
-    return (
-        <>
-            {/* NAVBAR */}
-            <motion.div
-                initial={{ y: -100, opacity: 0 }}
-                animate={{ y: 0, opacity: 1 }}
-                transition={{ duration: 0.8 }}
-                className={`
-                    z-50 bg-[rgba(243,244,246,0.85)] backdrop-blur-md bg-cover shadow-lg
-                    fixed md:absolute
-                    top-0 md:top-[1.5rem]
-                    left-0 md:left-14
-                    w-full md:w-11/12
-                    h-16 md:h-20
-                    px-2 md:p-2
-                    flex items-center justify-between
-                    rounded-b-2xl md:rounded-[25px]
-                `}
-                style={{ backgroundImage: `url(${back})` }}
-            >
-                {/* Desktop Navigation */}
-                <div className="hidden md:flex w-full h-full rounded-full border border-white bg-transparent items-center justify-between">
-                    <div className="flex space-x-1 h-full">
-                        <Link to="/home">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className={`w-[120px] md:w-[160px] h-full rounded-full font-poppins border border-white transition-all duration-300 text-xs md:text-base ${
-                                    isActive("/home")
-                                        ? "bg-white text-black md:w-[250px]"
-                                        : "bg-transparent text-white hover:bg-white hover:text-black hover:md:w-[250px]"
-                                }`}
-                            >
-                                Home
-                            </motion.button>
-                        </Link>
-                        <Link to="/list">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className={`w-[120px] md:w-[160px] h-full rounded-full font-poppins border border-white transition-all duration-300 text-xs md:text-base ${
-                                    isActive("/list")
-                                        ? "bg-white text-black md:w-[250px]"
-                                        : "bg-transparent text-white hover:bg-white hover:text-black hover:md:w-[250px]"
-                                }`}
-                            >
-                                Cocktails
-                            </motion.button>
-                        </Link>
-                    </div>
-                    <div className="flex space-x-1 h-full">
-                        <Link to="/apropos">
-                            <motion.button
-                                whileHover={{ scale: 1.05 }}
-                                whileTap={{ scale: 0.95 }}
-                                className={`w-[120px] md:w-[160px] h-full rounded-full font-poppins border border-white ml-2 md:ml-5 transition-all duration-300 text-xs md:text-base ${
-                                    isActive("/apropos")
-                                        ? "bg-white text-black md:w-[250px]"
-                                        : "bg-transparent text-white hover:bg-white hover:text-black hover:md:w-[250px]"
-                                }`}
-                            >
-                                A propos
-                            </motion.button>
-                        </Link>
-                        <button
-                            onClick={handleRandomCocktail}
-                            className={`w-[45px] md:w-[65px] h-full rounded-full border border-white flex items-center justify-center group transition-all duration-300 ${
-                                location.pathname.startsWith("/cocktails/")
-                                    ? "bg-white text-black"
-                                    : "bg-transparent text-white hover:bg-white hover:text-black"
-                            }`}
-                        >
-                            <motion.img
-                                src={LogoC}
-                                alt="Cocktails Icon"
-                                className={`w-5 md:w-6 ml-[2px] h-5 md:h-6 transition-all duration-300 ${
-                                    location.pathname.startsWith("/cocktails/") ? "invert" : "group-hover:invert"
-                                }`}
-                                whileHover={{ rotate: 360 }}
-                                transition={{ duration: 0.8 }}
-                            />
-                        </button>
-                    </div>
-                </div>
+  const handleRandomCocktail = async () => {
+    setLoadingRandom(true);
+    try {
+      const res = await fetch('/cocktails/random');
+      if (!res.ok) throw new Error();
+      const data = await res.json();
+      navigate(`/cocktails/${data.Id}`);
+    } catch {
+      /* silent */
+    } finally {
+      setLoadingRandom(false);
+      setIsMenuOpen(false);
+    }
+  };
 
-                {/* Mobile Navigation */}
-                <div className="md:hidden flex items-center w-full h-full">
-                    <button
-                        onClick={() => setIsMenuOpen(!isMenuOpen)}
-                        className="w-10 h-10 rounded-full border border-white bg-transparent flex items-center justify-center"
-                        aria-label="Ouvrir le menu"
-                    >
-                        <div className="flex flex-col items-center justify-center space-y-1">
-                            <div className="w-6 h-1 bg-white rounded-lg"></div>
-                            <div className="w-6 h-1 bg-white rounded-lg"></div>
-                            <div className="w-6 h-1 bg-white rounded-lg"></div>
-                        </div>
-                    </button>
-                    <div className="flex-1 flex justify-center">
-                        <img src={LogoC} alt="Logo" className="w-8 h-8" />
-                    </div>
-                    <div className="w-10"></div>
-                </div>
-            </motion.div>
+  const isActive = (path: string) => location.pathname === path;
 
-            {/* ✅ Menu mobile EN DEHORS de la navbar */}
-            {isMenuOpen && (
-                <motion.div
-                    initial={{ opacity: 0, y: -20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -20 }}
-                    transition={{ duration: 0.3 }}
-                    className="fixed top-0 left-0 w-full h-full bg-black bg-opacity-80 flex flex-col justify-start items-center z-[200] overflow-y-auto"
+  return (
+    <>
+      <motion.nav
+        initial={{ y: -80, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          scrolled
+            ? 'bg-zinc-950/90 backdrop-blur-md border-b border-zinc-800/60 shadow-lg'
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+          {/* Logo */}
+          <Link to="/home" className="flex items-center gap-2 group">
+            <img src={LogoC} alt="ShakeLabs" className="w-7 h-7 group-hover:rotate-12 transition-transform duration-300" />
+            <span className="font-poppins font-semibold text-white text-lg tracking-wide">ShakeLabs</span>
+          </Link>
+
+          {/* Desktop nav */}
+          <div className="hidden md:flex items-center gap-1">
+            {NAV_LINKS.map(({ to, label }) => (
+              <Link key={to} to={to}>
+                <motion.span
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className={`relative px-4 py-2 rounded-full font-poppins text-sm font-medium transition-all duration-200 ${
+                    isActive(to)
+                      ? 'text-white bg-zinc-800'
+                      : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60'
+                  }`}
                 >
-                    <button
-                        onClick={() => setIsMenuOpen(false)}
-                        className="absolute top-4 right-4 w-10 h-10 flex items-center justify-center"
-                        aria-label="Fermer le menu"
-                    >
-                        <span className="text-white text-3xl">&times;</span>
-                    </button>
-                    <div className="flex flex-col items-center w-full pt-20">
-                        <Link to="/home" onClick={() => setIsMenuOpen(false)}>
-                            <div className="text-white text-2xl py-4 font-poppins">Home</div>
-                        </Link>
-                        <Link to="/list" onClick={() => setIsMenuOpen(false)}>
-                            <div className="text-white text-2xl py-4 font-poppins">Cocktails</div>
-                        </Link>
-                        <Link to="/apropos" onClick={() => setIsMenuOpen(false)}>
-                            <div className="text-white text-2xl py-4 font-poppins">A propos</div>
-                        </Link>
-                        <button
-                            onClick={handleRandomCocktail}
-                            className="text-white text-2xl py-4 font-poppins"
-                        >
-                            Random Cocktail
-                        </button>
-                    </div>
+                  {label}
+                  {isActive(to) && (
+                    <motion.span
+                      layoutId="nav-indicator"
+                      className="absolute bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 rounded-full bg-amber-500"
+                    />
+                  )}
+                </motion.span>
+              </Link>
+            ))}
+
+            <motion.button
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              onClick={handleRandomCocktail}
+              disabled={loadingRandom}
+              title="Cocktail aléatoire"
+              className="ml-2 w-9 h-9 flex items-center justify-center rounded-full bg-amber-500/10 border border-amber-500/30 text-amber-400 hover:bg-amber-500 hover:text-black transition-all duration-200 disabled:opacity-50"
+            >
+              <Shuffle size={15} className={loadingRandom ? 'animate-spin' : ''} />
+            </motion.button>
+          </div>
+
+          {/* Mobile hamburger */}
+          <button
+            onClick={() => setIsMenuOpen(v => !v)}
+            className="md:hidden w-9 h-9 flex items-center justify-center rounded-full bg-zinc-800 text-white"
+            aria-label="Menu"
+          >
+            {isMenuOpen ? <X size={18} /> : <Menu size={18} />}
+          </button>
+        </div>
+      </motion.nav>
+
+      {/* Mobile menu */}
+      <AnimatePresence>
+        {isMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.2 }}
+            className="fixed inset-0 z-40 bg-zinc-950/95 backdrop-blur-md flex flex-col items-center justify-center gap-2 pt-16"
+          >
+            {NAV_LINKS.map(({ to, label }) => (
+              <Link key={to} to={to} onClick={() => setIsMenuOpen(false)}>
+                <motion.div
+                  whileTap={{ scale: 0.97 }}
+                  className={`text-2xl font-poppins font-medium px-8 py-4 rounded-2xl transition-colors ${
+                    isActive(to) ? 'text-amber-400' : 'text-zinc-300 hover:text-white'
+                  }`}
+                >
+                  {label}
                 </motion.div>
-            )}
-        </>
-    );
+              </Link>
+            ))}
+
+            <motion.button
+              whileTap={{ scale: 0.97 }}
+              onClick={handleRandomCocktail}
+              disabled={loadingRandom}
+              className="mt-4 flex items-center gap-2 px-6 py-3 rounded-full bg-amber-500 text-black font-poppins font-semibold disabled:opacity-50"
+            >
+              <Shuffle size={16} className={loadingRandom ? 'animate-spin' : ''} />
+              Cocktail aléatoire
+            </motion.button>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
+  );
 };
 
 export default NavigationBarWeb;
